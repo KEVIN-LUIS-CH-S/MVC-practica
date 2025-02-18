@@ -22,6 +22,23 @@ class AdminC{
         }
     }
 
+    public function registrarUsuarioC(){
+        if(isset($_POST['usuarioR'])){
+            $datosC=array('usuario'=>Sanitizar::limpiar($_POST['usuarioR']),
+                          'correo'=>Sanitizar::limpiar($_POST['correoR']),
+                          'password'=>Sanitizar::limpiar($_POST['passwordR']));
+            $result=$this->adminM->verificarUsuarioM($datosC);
+            if(isset($result['status']) && $result['status'] == 'error'){
+                echo json_encode($result);
+            }
+            else{
+                $result=$this->adminM->registrarUsuarioM($datosC);
+                echo json_encode($result);
+            }
+            //header('location: index.php?ruta=ingreso'); manejar la redireccion en el frontend
+        }
+    }
+
     public function salirC(){
         session_destroy();
         header("location:index.php?=ingreso");
