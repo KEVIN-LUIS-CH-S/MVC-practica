@@ -13,44 +13,30 @@ $registrar->registrarUsuarioC();
 </form>
 
 <script>
-    document.getElementById("registroForm").addEventListener("submit", function(event) {
+    document.getElementById("registroFormAdmin").addEventListener("submit", function(event) {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
 
     const formData = new FormData(this);
 
-    fetch('/MVC/Controladores/adminC.php', {
+    fetch('index.php?ruta=registroAdmin', {
         method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        console.log("Respuesta recibida: ", response);
-        response.json();}) // Asumimos que el backend devuelve JSON
-    .then(data => {
-        console.log("Respuesta del servidor: ", data);
-        if (data.status === 'success') {
-            // Si el registro es exitoso, mostramos una alerta con SweetAlert2
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: data.message // Muestra el mensaje del backend
-            });
+        body: new FormData(document.getElementById('registroFormAdmin'))
 
-        } else {
-            // Si hubo algún error, mostramos la alerta de error
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: data.message // Muestra el mensaje del backend
-            });
-        }
     })
-    .catch(error => {
-        // Si ocurre un error durante la petición
-        Swal.fire({
-            icon: 'error',
-            title: '¡Error!',
-            text: 'Hubo un problema con la solicitud. Intenta nuevamente.'
-        });
+    .then(response => response.text())  // ✅ Primero mostramos el texto crudo
+.then(text => {
+    console.log('Texto recibido del servidor:', text);  // Revisa qué está llegando exactamente
+    return JSON.parse(text); // Convierte manualmente a JSON
+})
+.then(data => {
+    console.log('Respuesta del servidor en JSON:', data);
+    Swal.fire({
+        icon: data.status === 'success' ? 'success' : 'error',
+        title: data.message
     });
+})
+.catch(error => {
+    console.error('Error en la petición: ', error);
+});
 });
 </script>

@@ -14,7 +14,7 @@ class RutasM{
             $pagina = "Vistas/modulos/ingresoAdmin.php";
         }
         else {
-            $pagina = "Vistas/modulos/ingresoAdminphp";
+            $pagina = "Vistas/modulos/ingresoAdmin.php";
         }
         return $pagina;
     }

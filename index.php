@@ -10,6 +10,11 @@ require_once 'Modelos/rutasM.php';
 require_once 'Modelos/adminM.php';
 require_once 'Modelos/empleadosM.php';
 
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+    exit;
+}
+
+// Evitar cargar la plantilla si es una petición AJAX
 include 'Vistas/plantilla.php';
 ob_end_flush();
 ?>
