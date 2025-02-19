@@ -30,25 +30,25 @@
             
         }
 
-        public function verificarUsuarioM($datosC, $tablaBD = 'administradores'){
+        public function verificarUsuarioM($datosC, $tablaBD = 'administradores') {
             try {
                 $cbd = ConexionBD::cBD('pdo');
                 $usuario = $datosC['usuario'];
-                //var_dump($usuario); // Verifica que el valor sea el esperado
+        
+                // Evitar inyecciones SQL
                 $stmt = $cbd->prepare("SELECT COUNT(*) FROM $tablaBD WHERE usuario = :usuario");
-                $stmt->execute([':usuario'=>$usuario]);
-                $row = $stmt->fetch(PDO::FETCH_NUM); // Traemos el conteo de usuarios que coinciden
-                // Verificamos si $row no es false antes de acceder a sus valores
-                if ($row) {
-                    $count = $row[0]; // Accedemos al conteo
-                    return $count > 0; // Retornamos true si hay coincidencias
-                } else {
-                    return false; // Si no hay resultado, retornamos false
+                $stmt->execute([':usuario' => $usuario]);
+                $row = $stmt->fetch(PDO::FETCH_NUM);
+        
+                // Si se encontró un registro
+                if ($row && $row[0] > 0) {
+                    return ['status' => 'error', 'message' => '¡El usuario/correo ya está registrado!'];
                 }
-                    return $count > 0; // Retornamos true si hay coincidencias
+                return false;
+        
             } catch (Exception $e) {
-                return ['status' => 'error', 'message' => '¡Error al verificar el usuario: ' . $e->getMessage()];
+                return ['status' => 'error', 'message' => '¡Error al verificar el usuario!'];
             }
-        }        
-    }
+        }
+    }    
 ?>

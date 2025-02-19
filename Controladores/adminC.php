@@ -23,32 +23,20 @@ class AdminC{
     }
 
     public function registrarUsuarioC(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['usuarioR'])) {
-        
-            $datosC = [
-                'usuario' => Sanitizar::limpiar($_POST['usuarioR']),
-                'email' => Sanitizar::limpiar($_POST['emailR']),
-                'password' => Sanitizar::limpiar($_POST['passwordR'])
-            ];
-    
-            // 💡 Limpiar cualquier salida previa
-            if (ob_get_length()) {
-                ob_clean();
-            }
-    
-            // ✅ Verificar si el usuario ya existe
+        if (isset($_POST['usuarioR'])) {
+            $datosC = array(
+                        'usuario' => Sanitizar::limpiar($_POST['usuarioR']),
+                        'email' => Sanitizar::limpiar($_POST['emailR']),
+                        'password' => Sanitizar::limpiar($_POST['passwordR'])
+                    );
+            //Verificar si el usuario ya existe
             $result = $this->adminM->verificarUsuarioM($datosC);
             if (isset($result['status']) && $result['status'] == 'error') {
-                //header('Content-Type: application/json; charset=utf-8');
-                echo json_encode($result);
-                exit;
+                responderJSON($result);
             }
-    
-            // ✅ Registrar nuevo usuario
+            //Registrar nuevo usuario
             $result = $this->adminM->registrarUsuarioM($datosC);
-            //header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($result);
-            exit;
+            responderJSON($result);
         }
     }
 
