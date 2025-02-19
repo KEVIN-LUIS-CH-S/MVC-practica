@@ -25,17 +25,17 @@ class AdminC{
     public function registrarUsuarioC(){
         if(isset($_POST['usuarioR'])){
             $datosC=array('usuario'=>Sanitizar::limpiar($_POST['usuarioR']),
-                          'correo'=>Sanitizar::limpiar($_POST['correoR']),
+                          'email'=>Sanitizar::limpiar($_POST['emailR']),
                           'password'=>Sanitizar::limpiar($_POST['passwordR']));
             $result=$this->adminM->verificarUsuarioM($datosC);
             if(isset($result['status']) && $result['status'] == 'error'){
                 echo json_encode($result);
+                exit;
             }
-            else{
-                $result=$this->adminM->registrarUsuarioM($datosC);
-                echo json_encode($result);
-            }
-            //header('location: index.php?ruta=ingreso'); manejar la redireccion en el frontend
+            $result=$this->adminM->registrarUsuarioM($datosC);
+            //header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['status' => 'success', 'message' => 'Prueba exitosa']);
+            exit;
         }
     }
 

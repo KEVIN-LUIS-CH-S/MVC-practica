@@ -1,7 +1,8 @@
 <?php //  Modelos/rutasM.php
 class RutasM{
     public function procesaRutasM($ruta){
-        if( $ruta == "ingreso" || 
+        if( $ruta == "ingresoAdmin" ||
+            $ruta == "registroAdmin" || 
             $ruta == 'empleados' || 
             $ruta == 'registrar' || 
             $ruta == 'salir' ||
@@ -10,10 +11,10 @@ class RutasM{
             $pagina = "Vistas/modulos/".$ruta. ".php";
         }
         else if($ruta == 'index'){
-            $pagina = "Vistas/modulos/ingreso.php";
+            $pagina = "Vistas/modulos/ingresoAdmin.php";
         }
         else {
-            $pagina = "Vistas/modulos/ingreso.php";
+            $pagina = "Vistas/modulos/ingresoAdminphp";
         }
         return $pagina;
     }
