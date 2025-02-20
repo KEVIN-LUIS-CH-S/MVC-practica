@@ -8,7 +8,11 @@ $registrar->registrarUsuarioC();
 <form method="post" action="" id="registroFormAdmin">
     <input type="text" placeholder="Usuario" name="usuarioR" required>
     <input type="email" placeholder="Email" name="emailR" required>
-    <input type="password" placeholder="Contraseña" name="passwordR" required>
+    <input type="password" placeholder="Contraseña" name="passwordR" id="password" required>
+    <input type="password" placeholder="Confirmar Contraseña" name="confirmPasswordR" id="confirmPassword" required>
+    <label>
+        <input type="checkbox" id="mostrarContrasena"> Mostrar Contraseña
+    </label>
     <input type="submit" value="Registrar">
 </form>
 
@@ -16,6 +20,18 @@ $registrar->registrarUsuarioC();
     document.getElementById("registroFormAdmin").addEventListener("submit", function(event) {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
     const formData = new FormData(this);
+
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Las contraseñas no coinciden.'
+            });
+            return;
+        }
     
     fetch('index.php?ruta=registroAdmin', {
         method: 'POST',
@@ -43,4 +59,11 @@ $registrar->registrarUsuarioC();
     });
 });
 
+document.getElementById("mostrarContrasena").addEventListener("change", function() {
+        const passwordField = document.getElementById("password");
+        const confirmPasswordField = document.getElementById("confirmPassword");
+        const type = this.checked ? "text" : "password";
+        passwordField.type = type;
+        confirmPasswordField.type = type;
+    });
 </script>
