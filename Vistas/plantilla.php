@@ -5,6 +5,7 @@
 	<title>CRUD</title>
 
 	<link rel="stylesheet" type="text/css" href="Vistas/css/estilos.css">
+	<link rel="stylesheet" href="Vistas/css/bootstrap.min.css">  
 	<link rel="stylesheet" href="Vistas/css/sweetalert2.min.css">
 
 </head>
@@ -20,6 +21,7 @@
 		include $modulo;
 	?>	
 	</section>
+	<script src="Vistas/js/bootstrap.min.js"></script>
 	<script src="Vistas/js/sweetalert2.min.js"></script>
 </body>
 </html>
