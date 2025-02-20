@@ -2,12 +2,11 @@
 $empleados = new EmpleadosC();
 $pagina = $empleados->mostrarEmpleadosC();
 $empleados->borrarEmpleadoC();
+$registrar = new EmpleadosC();
+$registrar->registrarEmpleadosC();
 ?><br>  <!-- Vistas/Modulos/empleados.php -->
-<!-- Botón para abrir el modal -->
-<h1>Empleados</h1>
 
-<!-- Botón para abrir el modal con SweetAlert2 -->
-<button id="abrirModal">Registrar Nuevo Empleado</button>
+<h1>Empleados</h1>
 
 <table id="t1" border="1">
     <thead>
@@ -45,79 +44,71 @@ $empleados->borrarEmpleadoC();
     </tbody>
 </table>
 
+<!-- Botón para abrir el modal -->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistro" id="abrirModal">
+    Registrar Nuevo Empleado
+</button>
+
+<!-- Modal de Bootstrap (inicialmente vacío) -->
+<div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRegistroLabel">Registrar Nuevo Empleado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="contenidoModal">
+        <!-- Aquí se cargará registrarEmple.php -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-    document.getElementById("abrirModal").addEventListener("click", () => {
-        Swal.fire({
-            title: 'Registrar un Empleado',
-            html: `
-                <input type="text" id="nombre" class="swal2-input" placeholder="Nombre" required>
-                <input type="text" id="apellido" class="swal2-input" placeholder="Apellido" required>
-                <input type="email" id="email" class="swal2-input" placeholder="Email" required>
-                <input type="text" id="puesto" class="swal2-input" placeholder="Puesto" required>
-                <input type="text" id="salario" class="swal2-input" placeholder="Salario" required>
-            `,
-            confirmButtonText: 'Registrar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                // Obtener valores del formulario
-                const nombre = document.getElementById('nombre').value.trim();
-                const apellido = document.getElementById('apellido').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const puesto = document.getElementById('puesto').value.trim();
-                const salario = document.getElementById('salario').value.trim();
+    // Abrir el modal y cargar el formulario
+document.getElementById("abrirModal").addEventListener("click", function() {
+    fetch('index.php?ruta=registrarEmple')
+    .then(response => response.text())
+    .then(html => {
+        // Cargar el contenido del formulario
+        document.getElementById("contenidoModal").innerHTML = html;
 
-                // Validar campos vacíos
-                if (!nombre || !apellido || !email || !puesto || !salario) {
-                    Swal.showValidationMessage('Todos los campos son obligatorios');
-                    return false;
-                }
+        // Asignar evento de envío al formulario cargado
+        const form = document.getElementById("registrarEmple");
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
 
-                // Retornar los datos
-                return { nombre, apellido, email, puesto, salario };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Llamar a la función para registrar
-                registrarEmpleado(result.value);
-            }
+            // Capturar los datos del formulario
+            const formData = new FormData(form);
+
+            // Enviar los datos al controlador
+            fetch('index.php?ruta=registrarEmple', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar alerta con SweetAlert2
+                Swal.fire({
+                    icon: data.status === 'success' ? 'success' : 'error',
+                    title: data.message
+                }).then(() => {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('❌ Error en fetch:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error inesperado!',
+                    text: 'Ocurrió un problema al procesar la solicitud.'
+                });
+            });*/
         });
-    });
-
-    // Función para enviar los datos con fetch()
-    function registrarEmpleado(datos) {
-        const formData = new FormData();
-        formData.append('nombreR', datos.nombre);
-        formData.append('apellidoR', datos.apellido);
-        formData.append('emailR', datos.email);
-        formData.append('puestoR', datos.puesto);
-        formData.append('salarioR', datos.salario);
-
-        fetch('index.php?ruta=registrarEmple', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            Swal.fire({
-                icon: data.status === 'success' ? 'success' : 'error',
-                title: data.message
-            }).then(() => {
-                // Actualizar la vista si el registro fue exitoso
-                if (data.status === 'success') {
-                    window.location.reload();
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error en la petición:', error);
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error inesperado!',
-                text: 'Ocurrió un problema al procesar la solicitud.'
-            });
-        });
-    }
+    })
+    .catch(error => console.error("❌ Error al cargar el formulario:", error));
+});
 </script>
-
 
