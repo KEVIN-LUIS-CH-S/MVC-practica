@@ -5,6 +5,7 @@
 	<title>CRUD</title>
 
 	<link rel="stylesheet" type="text/css" href="Vistas/css/estilos.css">
+	<link rel="stylesheet" href="Vistas/css/sweetalert2.min.css">
 
 </head>
 <body>
@@ -12,11 +13,13 @@
 		session_start();
 		$rutasC = new RutasC();
 		include 'modulos/menu.php';
-	?>	<section>
-
-		<?php
-			$modulo = $rutasC->procesaRutasC();
-			include $modulo;
-		?>	</section>
+	?>	
+	<section>
+	<?php
+		$modulo = $rutasC->procesaRutasC();
+		include $modulo;
+	?>	
+	</section>
+	<script src="Vistas/js/sweetalert2.min.js"></script>
 </body>
 </html>

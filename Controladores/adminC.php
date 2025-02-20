@@ -22,6 +22,24 @@ class AdminC{
         }
     }
 
+    public function registrarUsuarioC(){
+        if (isset($_POST['usuarioR'])) {
+            $datosC = array(
+                        'usuario' => Sanitizar::limpiar($_POST['usuarioR']),
+                        'email' => Sanitizar::limpiar($_POST['emailR']),
+                        'password' => Sanitizar::limpiar($_POST['passwordR'])
+                    );
+            //Verificar si el usuario ya existe
+            $result = $this->adminM->verificarUsuarioM($datosC);
+            if (isset($result['status']) && $result['status'] == 'error') {
+                responderJSON($result);
+            }
+            //Registrar nuevo usuario
+            $result = $this->adminM->registrarUsuarioM($datosC);
+            responderJSON($result);
+        }
+    }
+
     public function salirC(){
         session_destroy();
         header("location:index.php?=ingreso");
