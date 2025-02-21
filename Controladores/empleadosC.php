@@ -58,9 +58,8 @@ class EmpleadosC {
     public function borrarEmpleadoC(){
         if(isset($_GET['id'])){
             $datosC = array('id' => $_GET['id']);
-            $tablaBD = 'empleados';
-            $this->empleadosM->borrarEmpleadoM($datosC, $tablaBD);
-            header('location: index.php?rutas=empleados');
+            $result=$this->empleadosM->borrarEmpleadoM($datosC);
+            responderJSON($result);
         }
     }
 }

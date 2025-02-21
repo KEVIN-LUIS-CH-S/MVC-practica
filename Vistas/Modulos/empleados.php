@@ -33,9 +33,12 @@ $empleados->borrarEmpleadoC();
                     </button>
                 </td>
                 <td>
-                    <a href='index.php?ruta=empleados&id=<?= $value['id'] ?>'>
-                        <button>Borrar</button>
-                    </a>
+                    <button class="btn btn-danger btnEliminar" 
+                        data-id="<?= $value['id'] ?>" 
+                        data-nombre="<?= $value['nombre'] ?>" 
+                        data-apellido="<?= $value['apellido'] ?>">
+                        Borrar
+                    </button>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -62,9 +65,10 @@ $empleados->borrarEmpleadoC();
   </div>
 </div>
 
+
 <script>
 
-    document.getElementById("abrirModalRegistro").addEventListener("click", function() {
+    /*document.getElementById("abrirModalRegistro").addEventListener("click", function() {
         cargarModal("index.php?ruta=registrarEmple", "contenidoModal", "formRegistrarEmpleado");
         document.getElementById("modalGeneralLabel").innerText = "Registrar Nuevo Empleado";
         new bootstrap.Modal(document.getElementById("modalGeneral")).show();
@@ -78,5 +82,38 @@ $empleados->borrarEmpleadoC();
         });
     });
 
+    // Funcionalidad de eliminación con SweetAlert2
+    document.querySelectorAll(".btnEliminar").forEach(btn => {
+        btn.addEventListener("click", function() {
+            let idEmpleado = this.getAttribute("data-id");
+            let nombre = this.getAttribute("data-nombre");
+            let apellido = this.getAttribute("data-apellido");
+
+            Swal.fire({
+                title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`index.php?ruta=empleados&id=${idEmpleado}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.fire({
+                            icon: data.status === "success" ? "success" : "error",
+                            title: data.message
+                        }).then(() => {
+                            if (data.status === "success") {
+                                window.location.reload(); // Recargar la página si se eliminó correctamente
+                            }
+                        });
+                    })
+                    .catch(error => console.error("❌ Error en fetch:", error));
+                }
+            });
+        });
+    });*/
 </script>
 

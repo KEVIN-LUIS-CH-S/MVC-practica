@@ -20,7 +20,7 @@ class EmpleadosM extends ConexionBD{
                             ':salario'=>$salario]);
             return ['status' => 'success', 'message' => '¡Empleado registrado!'];
         }catch (Exception $e){
-            return ['status' => 'error', 'message' => '¡Error al registrar empleado!'];
+            return ['status' => 'error', 'message' => '¡El correo ya existe, intente con otro correo por favor!'];
         }
         
     }
@@ -28,7 +28,7 @@ class EmpleadosM extends ConexionBD{
     public function mostrarEmpleadosM($tablaBD = 'empleados'){
         try{
             $cbd = ConexionBD::cBD('pdo');
-            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD");
+            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
             $stmt->execute();
             return $stmt;
         }
@@ -78,10 +78,16 @@ class EmpleadosM extends ConexionBD{
     }
 
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        extract($datosC);
-        $query = "DELETE FROM $tablaBD WHERE id='$id'";
-        $resultado = $cbd->query($query);
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            extract($datosC);
+            $stmt=$cbd->prepare("UPDATE $tablaBD SET estado = 0 WHERE id=:id");
+            $stmt->execute([':id'=>$id]);
+            return ['status' => 'success', 'message' => 'Empleado eliminado'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'No se pudo eliminar'];
+        }
+        
     }
-} 
+}
 ?>
