@@ -1,3 +1,5 @@
+/* Vistas/js/modal.js*/
+
 function cargarModal(url, modalId, formId, data = {}) {
     let queryString = new URLSearchParams(data).toString();
     let fullUrl = queryString ? `${url}&${queryString}` : url;
@@ -7,7 +9,8 @@ function cargarModal(url, modalId, formId, data = {}) {
         .then(html => {
             document.getElementById(modalId).innerHTML = html;
 
-            const form = document.getElementById(formId);
+            const form = document.getElementById(formId).querySelector("form");
+
             form.addEventListener("submit", function(event) {
                 event.preventDefault();
                 const formData = new FormData(form);

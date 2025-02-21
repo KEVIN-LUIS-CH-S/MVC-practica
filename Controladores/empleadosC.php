@@ -42,17 +42,15 @@ class EmpleadosC {
     //actualizar empleados
     public function actualizarEmpleadoC(){
         if(isset($_POST['nombreE'])){
-            $datosC = array(    'id'=>$_POST['idE'],
-                                'nombre'=>$_POST['nombreE'],
-                                'apellido'=>$_POST['apellidoE'],
-                                'email' => $_POST['emailE'],
-                                'puesto' => $_POST['puestoE'],
-                                'salario' => $_POST['salarioE'],
+            $datosC = array(    'id'=>Sanitizar::limpiar($_POST['idE']),
+                                'nombre'=>Sanitizar::limpiar($_POST['nombreE']),
+                                'apellido'=>Sanitizar::limpiar($_POST['apellidoE']),
+                                'email' =>Sanitizar::limpiar($_POST['emailE']),
+                                'puesto' =>Sanitizar::limpiar($_POST['puestoE']),
+                                'salario' =>Sanitizar::limpiar($_POST['salarioE'])
                             );
-
             $result = $this->empleadosM->actualizarEmpleadoM($datosC);
-            header('location: index.php?rutas=empleados');
-            return $result;
+            responderJson($result);
         }
     }
 
