@@ -28,34 +28,3 @@ $registrar->registrarEmpleadosC();
     </div>
     <button type="submit" class="btn btn-success">Registrar</button>
 </form>
-
-<script>
-    document.getElementById("registrarEmple").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-
-    fetch('index.php?ruta=registrarEmple', {
-    method: 'POST',
-    body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-            Swal.fire({
-                icon: data.status === 'success' ? 'success' : 'error',
-                title: data.message
-            }).then(() => {
-                if (data.status === 'success') {
-                    window.location.reload();
-                }
-            });
-        })
-    .catch(error => {
-        console.error('❌ Error en fetch:', error);
-        Swal.fire({
-            icon: 'error',
-            title: '¡Error inesperado!',
-            text: 'Ocurrió un problema al procesar la solicitud en registroEmple.'
-        });
-    });
-});
-</script>

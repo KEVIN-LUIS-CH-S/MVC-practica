@@ -2,8 +2,6 @@
 $empleados = new EmpleadosC();
 $pagina = $empleados->mostrarEmpleadosC();
 $empleados->borrarEmpleadoC();
-$registrar = new EmpleadosC();
-$registrar->registrarEmpleadosC();
 ?><br>  <!-- Vistas/Modulos/empleados.php -->
 
 <h1>Empleados</h1>
@@ -66,7 +64,6 @@ $registrar->registrarEmpleadosC();
 
 <script>
 
-
 document.getElementById("abrirModal").addEventListener("click", function() {
     fetch('index.php?ruta=registrarEmple')
     .then(response => response.text())
@@ -107,11 +104,9 @@ document.getElementById("abrirModal").addEventListener("click", function() {
                     text: 'Ocurrió un problema al procesar la solicitud.'
                 });
             });
-        /*});
+        });
     })
-    .catch(error => console.error("❌ Error al cargar el formulario:", error));*/
+    .catch(error => console.error("❌ Error al cargar el formulario:", error));
 });
-})
-})
 </script>
 
