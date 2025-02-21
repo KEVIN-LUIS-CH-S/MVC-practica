@@ -65,7 +65,8 @@ $registrar->registrarEmpleadosC();
 </div>
 
 <script>
-    // Abrir el modal y cargar el formulario
+
+
 document.getElementById("abrirModal").addEventListener("click", function() {
     fetch('index.php?ruta=registrarEmple')
     .then(response => response.text())
@@ -105,10 +106,12 @@ document.getElementById("abrirModal").addEventListener("click", function() {
                     title: '¡Error inesperado!',
                     text: 'Ocurrió un problema al procesar la solicitud.'
                 });
-            });*/
-        });
+            });
+        /*});
     })
-    .catch(error => console.error("❌ Error al cargar el formulario:", error));
+    .catch(error => console.error("❌ Error al cargar el formulario:", error));*/
 });
+})
+})
 </script>
 

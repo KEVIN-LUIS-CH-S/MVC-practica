@@ -35,29 +35,27 @@ $registrar->registrarEmpleadosC();
     const formData = new FormData(this);
 
     fetch('index.php?ruta=registrarEmple', {
-        method: 'POST',
-        body: formData
+    method: 'POST',
+    body: formData
     })
+    .then(response => response.json())
     .then(data => {
-        // Mostrar alerta con SweetAlert2
-        Swal.fire({
-            icon: data.status === 'success' ? 'success' : 'error',
-            title: data.message
-        }).then(() => {
-            if (data.status === 'success') {
-                window.location.reload();
-            }
-        });
-    })
+            Swal.fire({
+                icon: data.status === 'success' ? 'success' : 'error',
+                title: data.message
+            }).then(() => {
+                if (data.status === 'success') {
+                    window.location.reload();
+                }
+            });
+        })
     .catch(error => {
         console.error('❌ Error en fetch:', error);
         Swal.fire({
             icon: 'error',
             title: '¡Error inesperado!',
-            text: 'Ocurrió un problema al procesar la solicitud.'
+            text: 'Ocurrió un problema al procesar la solicitud en registroEmple.'
         });
     });
 });
-
-
 </script>
