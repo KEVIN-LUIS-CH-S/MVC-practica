@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Registrar empleado - Modal
-    document.getElementById("abrirModalRegistro").addEventListener("click", function() {
-        cargarModal("index.php?ruta=registrarEmple", "contenidoModal", "formRegistrarEmpleado");
-        document.getElementById("modalGeneralLabel").innerText = "Registrar Nuevo Empleado";
-        new bootstrap.Modal(document.getElementById("modalGeneral")).show();
-    });
+    const btnAbrirModal = document.getElementById("abrirModalRegistro");
+
+    if (btnAbrirModal !== null) {  // Solo ejecuta si el botón existe
+        // Registrar empleado - Modal
+        btnAbrirModal.addEventListener("click", function() {
+            cargarModal("index.php?ruta=registrarEmple", "contenidoModal", "formRegistrarEmpleado");
+            document.getElementById("modalGeneralLabel").innerText = "Registrar Nuevo Empleado";
+            new bootstrap.Modal(document.getElementById("modalGeneral")).show();
+        });
+    }
 
     // Editar empleado - Modal
     document.querySelectorAll(".abrirModalEditar").forEach(btn => {
