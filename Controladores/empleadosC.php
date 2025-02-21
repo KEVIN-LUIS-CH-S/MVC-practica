@@ -7,15 +7,20 @@ class EmpleadosC {
     public function registrarEmpleadosC(){
         if(isset($_POST['nombreR'])){
             $datosC =array();
-            $datosC['nombre'] = $_POST['nombreR'];
-            $datosC['apellido'] = $_POST['apellidoR'];
-            $datosC['email'] = $_POST['emailR'];
-            $datosC['puesto'] = $_POST['puestoR'];
-            $datosC['salario'] = $_POST['salarioR'];
+            $datosC['nombre'] = Sanitizar::limpiar($_POST['nombreR']);
+            $datosC['apellido'] = Sanitizar::limpiar($_POST['apellidoR']);
+            $datosC['email'] = Sanitizar::limpiar($_POST['emailR']);
+            $datosC['puesto'] = Sanitizar::limpiar($_POST['puestoR']);
+            $datosC['salario'] = Sanitizar::limpiar($_POST['salarioR']);
+            
+            error_log('Datos recibidos: ' . print_r($datos, true));
 
             $result = $this->empleadosM->registrarEmpleadosM($datosC);
-         
-            header('location: index.php?ruta=empleados');
+            if (isset($result['status']) && $result['status'] == 'success') {
+                responderJSON($result);
+            }else{
+                responderJSON($result);
+            }    
         }
     }
 

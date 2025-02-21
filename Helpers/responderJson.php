@@ -7,3 +7,4 @@ function responderJSON($data) {
     echo json_encode($data);
     exit;
 }
+?>

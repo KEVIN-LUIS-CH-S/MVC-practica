@@ -4,21 +4,28 @@ class AdminC{
         $this->adminM = new AdminM();
     }
 
-    public function IngresoC(){
+    public function ingresoC(){
         if(isset($_SESSION['Ingreso']))
             header("location: index.php?ruta=empleados");
+
         if(isset($_POST["usuarioI"])){
             $datosC = array(    
-                        "usuario"=>$_POST["usuarioI"], 
-                        "clave"=>$_POST["claveI"]);
-            $result = $this->adminM->IngresoM($datosC);
-            if(isset($result)){
-                session_start();
-                $_SESSION['Ingreso']=true;
-                header("location: index.php?ruta=empleados");
+                        "usuario"=>Sanitizar::limpiar($_POST["usuarioI"]), 
+                        "clave"=>Sanitizar::limpiar($_POST["claveI"]));
+            $result = $this->adminM->ingresoM($datosC);
+
+            if ($result && password_verify($datosC['clave'], $result['password'])) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start(); // Iniciar sesión solo si no está activa
+                }
+                $_SESSION['Ingreso'] = true;
+                $_SESSION['usuario_id'] = $result['id'];
+                $_SESSION['usuario_nombre'] = $result['usuario'];
+
+                responderJSON(["status" => "success", "message" => "¡Bienvenido {$result['usuario']}!"]);
+            } else {
+                responderJSON(["status" => "error", "message" => "Usuario o contraseña incorrectos."]);
             }
-            else
-                echo "ERROR AL INGRESAR";
         }
     }
 
@@ -40,9 +47,29 @@ class AdminC{
         }
     }
 
-    public function salirC(){
+    public function salirC() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        // Limpia el arreglo de sesión
+        $_SESSION = array();
+    
+        // Borra la cookie de sesión si existe
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+    
+        // Destruye la sesión
         session_destroy();
-        header("location:index.php?=ingreso");
+    
+        // Redirige al login
+        header("location: index.php?ruta=ingresoAdmin");
+        exit();
     }
 }
 ?>

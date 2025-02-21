@@ -1,4 +1,5 @@
 <?php
+// Vistas/Modulos/salir.php
     $ingreso = new AdminC();
     $ingreso->salirC();       
 

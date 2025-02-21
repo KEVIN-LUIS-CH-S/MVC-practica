@@ -2,14 +2,20 @@
     require_once "conexionBD.php";
 
     class AdminM extends ConexionBD{
-        public function IngresoM($datosC, $tablaBD = 'administradores'){
-            $cbd = ConexionBD::cBD();
-            $usuario = $datosC['usuario'];
-            $clave = $datosC['clave'];
-            $query = "SELECT usuario, clave FROM $tablaBD 
-                WHERE usuario='$usuario' AND clave='$clave'";
-            $result = $cbd->query($query);
-            return $result->fetch_array(MYSQLI_ASSOC);
+        public function ingresoM($datosC, $tablaBD = 'administradores'){
+            try{
+                $cbd = ConexionBD::cBD('pdo');
+                $usuario = $datosC['usuario'];
+                $clave_temp = $datosC['clave'];
+
+                $stmt = $cbd->prepare("SELECT id, usuario, password FROM $tablaBD WHERE usuario = :usuario");
+                $stmt->execute([':usuario' => $usuario]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $row ?: null;
+            } catch(Exception $e){
+                return ['status' => 'error', 'message' => 'Error en el login, intente mas tarde'];
+            }
+            
         }
 
         public function registrarUsuarioM($datosC, $tablaBD = 'administradores'){

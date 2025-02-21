@@ -4,7 +4,7 @@ class RutasM{
         if( $ruta == "ingresoAdmin" ||
             $ruta == "registroAdmin" || 
             $ruta == 'empleados' || 
-            $ruta == 'registrar' || 
+            $ruta == 'registrarEmple' || 
             $ruta == 'salir' ||
             $ruta == 'editar')
         {

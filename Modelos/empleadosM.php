@@ -4,26 +4,38 @@ require_once "conexionBD.php";
 class EmpleadosM extends ConexionBD{
  
     public function registrarEmpleadosM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $nombre = $datosC['nombre'];
-        $apellido = $datosC['apellido'];
-        $email = $datosC['email'];
-        $salario = $datosC['salario'];
-        $puesto = $datosC['puesto'];
-        $query = "INSERT INTO $tablaBD VALUES 
-            (Null,'$nombre', '$apellido', '$email', '$puesto', '$salario')";
+        try{
+            $cbd = ConexionBD::cBD('pdo');
+            $nombre = $datosC['nombre'];
+            $apellido = $datosC['apellido'];
+            $email = $datosC['email'];
+            $salario = $datosC['salario'];
+            $puesto = $datosC['puesto'];
 
-        $result = $cbd->query($query);
-
-        return $result;
+            $stmt = $cbd->prepare("INSERT INTO $tablaBD (nombre, apellido, email, puesto, salario) VALUES (:nombre, :apellido, :email, :puesto, :salario)");
+            $stmt->execute([':nombre'=>$nombre,
+                            ':apellido'=>$apellido,
+                            ':email'=>$email,
+                            ':puesto'=>$puesto,
+                            ':salario'=>$salario]);
+            return ['status' => 'success', 'message' => '¡Empleado registrado!'];
+        }catch (Exception $e){
+            return ['status' => 'error', 'message' => '¡Error al registrar empleado!'];
+        }
+        
     }
 
     public function mostrarEmpleadosM($tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $query = "SELECT id, nombre, email, apellido, puesto, salario 
-                FROM $tablaBD";
-        $result = $cbd->query($query);
-        return $result;
+        try{
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD");
+            $stmt->execute();
+            return $stmt;
+        }
+        catch (Exception $e){
+            return ['status' => 'error', 'message' => 'Error al mostrar empleados'];
+        }
+        
     }
 
     public function editarEmpleadoM($datosC, $tablaBD = 'empleados'){
