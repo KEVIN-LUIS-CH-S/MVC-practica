@@ -64,7 +64,11 @@ $empleados->borrarEmpleadoC();
 
 <script>
 
-document.getElementById("abrirModal").addEventListener("click", function() {
+    document.getElementById("abrirModal").addEventListener("click", function() {
+        cargarModal("index.php?ruta=registrarEmple", "contenidoModal", "registrarEmple");
+    });
+
+/*document.getElementById("abrirModal").addEventListener("click", function() {
     fetch('index.php?ruta=registrarEmple')
     .then(response => response.text())
     .then(html => {
@@ -107,6 +111,6 @@ document.getElementById("abrirModal").addEventListener("click", function() {
         });
     })
     .catch(error => console.error("❌ Error al cargar el formulario:", error));
-});
+});*/
 </script>
 
