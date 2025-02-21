@@ -6,7 +6,7 @@ class RutasM{
             $ruta == 'empleados' || 
             $ruta == 'registrarEmple' || 
             $ruta == 'salir' ||
-            $ruta == 'editar')
+            $ruta == 'editarEmple')
         {
             $pagina = "Vistas/modulos/".$ruta. ".php";
         }

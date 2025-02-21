@@ -1,4 +1,4 @@
-<?php
+<?php	/* Vistas/Modulos/editarEmple.php */
 $empleados = new EmpleadosC();
 $resultado = $empleados->editarEmpleadoC();
 $empleados->actualizarEmpleadoC();

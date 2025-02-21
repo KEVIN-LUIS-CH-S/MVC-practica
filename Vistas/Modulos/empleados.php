@@ -28,7 +28,7 @@ $empleados->borrarEmpleadoC();
                 <td><?=$value['puesto']?></td>
                 <td><?=$value['salario']?></td>
                 <td>
-                    <a href='index.php?ruta=editar&id=<?=$value['id']?>'>
+                    <a href='index.php?ruta=editarEmple&id=<?=$value['id']?>'>
                         <button>Editar</button>
                     </a>
                 </td>
@@ -68,49 +68,5 @@ $empleados->borrarEmpleadoC();
         cargarModal("index.php?ruta=registrarEmple", "contenidoModal", "registrarEmple");
     });
 
-/*document.getElementById("abrirModal").addEventListener("click", function() {
-    fetch('index.php?ruta=registrarEmple')
-    .then(response => response.text())
-    .then(html => {
-        // Cargar el contenido del formulario
-        document.getElementById("contenidoModal").innerHTML = html;
-
-        // Asignar evento de envío al formulario cargado
-        const form = document.getElementById("registrarEmple");
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            // Capturar los datos del formulario
-            const formData = new FormData(form);
-
-            // Enviar los datos al controlador
-            fetch('index.php?ruta=registrarEmple', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Mostrar alerta con SweetAlert2
-                Swal.fire({
-                    icon: data.status === 'success' ? 'success' : 'error',
-                    title: data.message
-                }).then(() => {
-                    if (data.status === 'success') {
-                        window.location.reload();
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('❌ Error en fetch:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error inesperado!',
-                    text: 'Ocurrió un problema al procesar la solicitud.'
-                });
-            });
-        });
-    })
-    .catch(error => console.error("❌ Error al cargar el formulario:", error));
-});*/
 </script>
 
