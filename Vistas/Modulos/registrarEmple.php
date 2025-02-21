@@ -6,7 +6,7 @@ $registrar->registrarEmpleadosC();
 <h1>REGISTRAR UN EMPLEADO</h1>
 
 <div id="formRegistrarEmpleado">
-    <form method="post" action="" id="registrarEmple">
+    <form method="post" action="">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" placeholder="Nombre" name="nombreR" id="nombre" class="form-control" required>
