@@ -39,29 +39,42 @@ class EmpleadosM extends ConexionBD{
     }
 
     public function editarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $id = $datosC['id'];
-        $query = "SELECT id, nombre, email, apellido, puesto, salario
-                FROM $tablaBD WHERE id='$id'";
-        $result = $cbd->query($query);
-        $rows = $result->fetch_array(MYSQLI_ASSOC);
-        return $rows;
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $id = $datosC['id'];
+            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE id=:id");
+            $stmt->execute([':id'=>$id]);
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error en selecion de empleado a editar'];
+        }
+        
     }
 
     public function actualizarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        extract($datosC);
-        $query = "UPDATE $tablaBD
-            SET id='$id', 
-            nombre='$nombre', 
-            apellido='$apellido', 
-            email='$email', 
-            puesto='$puesto', 
-            salario='$salario'
-            WHERE id='$id'";
-        echo $query;
-        $resultado = $cbd->query($query);
-        return $resultado;    
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            extract($datosC);
+            $stmt=$cbd->prepare("UPDATE $tablaBD
+                SET nombre=:nombre, 
+                apellido=:apellido, 
+                email=:email, 
+                puesto=:puesto, 
+                salario=:salario
+                WHERE id=:id");
+            $stmt->execute([':nombre'=>$nombre,
+                            ':apellido'=>$apellido,
+                            ':email'=>$email,
+                            ':puesto'=>$puesto,
+                            ':salario'=>$salario,
+                            ':id'=>$id]);
+
+            return ['status' => 'success', 'message' => 'empleado actualizado correctamente'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error al actualizar empleado'];
+        }
+       
     }
 
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){

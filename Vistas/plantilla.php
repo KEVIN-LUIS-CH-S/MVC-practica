@@ -21,8 +21,8 @@
 		include $modulo;
 	?>	
 	</section>
-	<script src="Vistas/js/modal.js"></script>
 	<script src="Vistas/js/bootstrap.min.js"></script>
 	<script src="Vistas/js/sweetalert2.min.js"></script>
+	<script src="Vistas/js/modal.js"></script>
 </body>
 </html>
