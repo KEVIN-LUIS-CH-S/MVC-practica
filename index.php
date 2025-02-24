@@ -23,6 +23,13 @@ if (isset($_GET['modal']) && $_GET['modal'] == 'true') {
     exit; // Detener la ejecución para evitar que se cargue la plantilla completa
 }
 
+if (isset($_GET['action']) && $_GET['action'] == 'buscar' && isset($_GET['query'])) {
+    $empleados = new EmpleadosC();
+    $empleados->buscarEmpleadoC($_GET['query']);
+    exit();
+}
+
+
 // Evitar cargar la plantilla si es una petición AJAX
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     exit;

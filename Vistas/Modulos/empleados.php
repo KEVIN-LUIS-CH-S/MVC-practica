@@ -6,6 +6,9 @@ $empleados->borrarEmpleadoC();
 
 <h1>Empleados</h1>
 
+<!-- Campo de búsqueda -->
+<input type="text" id="busqueda" placeholder="Buscar empleado...">
+
 <table id="t1" border="1">
     <thead>
         <tr>
@@ -19,7 +22,7 @@ $empleados->borrarEmpleadoC();
         </tr>
     </thead>
 
-    <tbody>
+    <tbody id="tablaEmpleados">
         <?php foreach($pagina as $value): ?>
             <tr>
                 <td><?= $value['nombre'] ?></td>
@@ -64,3 +67,83 @@ $empleados->borrarEmpleadoC();
     </div>
   </div>
 </div>
+
+<script>
+    document.getElementById('busqueda').addEventListener('input', function() {
+    let query = this.value.trim();
+    fetch('index.php?ruta=empleados&action=buscar&query=' + encodeURIComponent(query))
+        .then(response => response.json())
+        .then(data => {
+            console.log("Resultados recibidos:", data); // 📌 Verifica los datos en consola
+            
+            let tbody = document.getElementById('tablaEmpleados');
+            tbody.innerHTML = ''; // Borra la tabla
+
+            data.forEach(emp => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${emp.nombre}</td>
+                    <td>${emp.apellido}</td>
+                    <td>${emp.email}</td>
+                    <td>${emp.puesto}</td>
+                    <td>${emp.salario}</td>
+                    <td><button class='btn btn-warning abrirModalEditar' data-id='${emp.id}'>Editar</button></td>
+                    <td><button class='btn btn-danger btnEliminar' data-id='${emp.id}' data-nombre='${emp.nombre}' data-apellido='${emp.apellido}'>Borrar</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // 📌 Verificamos si los botones existen después de actualizar la tabla
+            console.log("Botones después de actualizar la tabla:", document.querySelectorAll(".abrirModalEditar").length);
+        });
+});
+
+// 📌 Delegación de eventos para los botones
+document.getElementById('tablaEmpleados').addEventListener('click', function(event) {
+    let target = event.target;
+
+    // 📌 Si el clic fue en un botón de editar
+    if (target.classList.contains('abrirModalEditar')) {
+        let idEmpleado = target.getAttribute("data-id");
+        console.log("Botón Editar clickeado con ID:", idEmpleado); // 📌 Depuración
+        cargarModal("index.php?ruta=editarEmple", "contenidoModal", "formEditarEmpleado", { id: idEmpleado });
+        document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
+        new bootstrap.Modal(document.getElementById("modalGeneral")).show();
+    }
+
+    // 📌 Si el clic fue en un botón de eliminar
+    if (target.classList.contains('btnEliminar')) {
+        let idEmpleado = target.getAttribute("data-id");
+        let nombre = target.getAttribute("data-nombre");
+        let apellido = target.getAttribute("data-apellido");
+
+        console.log("Botón Eliminar clickeado con ID:", idEmpleado); // 📌 Depuración
+
+        Swal.fire({
+            title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,
+            text: "Esta acción no se puede deshacer",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('index.php?ruta=empleados&action=eliminar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: idEmpleado })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        target.closest("tr").remove(); // Elimina la fila de la tabla
+                        Swal.fire("Eliminado", "El empleado ha sido eliminado", "success");
+                    } else {
+                        Swal.fire("Error", "No se pudo eliminar el empleado", "error");
+                    }
+                });
+            }
+        });
+    }
+});
+</script>

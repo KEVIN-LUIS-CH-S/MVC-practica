@@ -77,6 +77,19 @@ class EmpleadosM extends ConexionBD{
        
     }
 
+    public function buscarEmpleadoM($query, $tablaBD = 'empleados') {
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD 
+                                  WHERE estado=1 AND (nombre LIKE :query OR apellido LIKE :query OR email LIKE :query)");
+            $stmt->bindValue(':query', "%$query%", PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){
         try {
             $cbd = ConexionBD::cBD('pdo');

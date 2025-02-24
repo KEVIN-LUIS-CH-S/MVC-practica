@@ -50,10 +50,15 @@ class EmpleadosC {
                                 'salario' =>Sanitizar::limpiar($_POST['salarioE'])
                             );
             $result = $this->empleadosM->actualizarEmpleadoM($datosC);
-            responderJson($result);
+            responderJSON($result);
         }
     }
 
+    public function buscarEmpleadoC($letras){
+            $result = $this->empleadosM->buscarEmpleadoM($letras);
+            responderJSON($result);
+        }
+    
     //borrar empleado
     public function borrarEmpleadoC(){
         if(isset($_GET['id'])){
