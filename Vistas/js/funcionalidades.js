@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         btn.addEventListener("click", function() {
             let idEmpleado = this.getAttribute("data-id");
             cargarModal("index.php?ruta=editarEmple", "contenidoModal", "formEditarEmpleado", { id: idEmpleado });
+            document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
             new bootstrap.Modal(document.getElementById("modalGeneral")).show();
         });
     });
