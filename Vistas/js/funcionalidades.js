@@ -1,3 +1,5 @@
+// Vistas/funcionalidades.js
+
 document.addEventListener("DOMContentLoaded", function() {
     const btnAbrirModal = document.getElementById("abrirModalRegistro");
 

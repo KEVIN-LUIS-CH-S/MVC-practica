@@ -1,4 +1,4 @@
-<?php
+<?php // Helpers/sanitizar.php
 
 class Sanitizar{
     // Limpia la entrada del usuario (previene XSS e Inyección SQL)

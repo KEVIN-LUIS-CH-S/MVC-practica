@@ -4,5 +4,5 @@
     $ingreso->salirC();       
 
 ?>
-<br> <!-- Vistas/Modulos/registrar.php -->
+<br>
 <h1>Has cerrado sesión</h1>
