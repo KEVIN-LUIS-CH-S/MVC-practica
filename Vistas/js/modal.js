@@ -1,6 +1,6 @@
 /* Vistas/js/modal.js*/
-
 function cargarModal(url, modalId, formId, data = {}) {
+    data.modal = "true"; // Agregamos el parámetro `modal=true`
     let queryString = new URLSearchParams(data).toString();
     let fullUrl = queryString ? `${url}&${queryString}` : url;
 
