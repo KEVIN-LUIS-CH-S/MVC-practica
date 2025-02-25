@@ -1,62 +1,106 @@
-<?php  //Modelos/empleadosM.php
+<?php  // Modelos/empleadosM.php
 require_once "conexionBD.php";
 
 class EmpleadosM extends ConexionBD{
  
     public function registrarEmpleadosM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $nombre = $datosC['nombre'];
-        $apellido = $datosC['apellido'];
-        $email = $datosC['email'];
-        $salario = $datosC['salario'];
-        $puesto = $datosC['puesto'];
-        $query = "INSERT INTO $tablaBD VALUES 
-            (Null,'$nombre', '$apellido', '$email', '$puesto', '$salario')";
+        try{
+            $cbd = ConexionBD::cBD('pdo');
+            $nombre = $datosC['nombre'];
+            $apellido = $datosC['apellido'];
+            $email = $datosC['email'];
+            $salario = $datosC['salario'];
+            $puesto = $datosC['puesto'];
 
-        $result = $cbd->query($query);
-
-        return $result;
+            $stmt = $cbd->prepare("INSERT INTO $tablaBD (nombre, apellido, email, puesto, salario) VALUES (:nombre, :apellido, :email, :puesto, :salario)");
+            $stmt->execute([':nombre'=>$nombre,
+                            ':apellido'=>$apellido,
+                            ':email'=>$email,
+                            ':puesto'=>$puesto,
+                            ':salario'=>$salario]);
+            return ['status' => 'success', 'message' => '¡Empleado registrado!'];
+        }catch (Exception $e){
+            return ['status' => 'error', 'message' => '¡El correo ya existe, intente con otro correo por favor!'];
+        }
+        
     }
 
     public function mostrarEmpleadosM($tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $query = "SELECT id, nombre, email, apellido, puesto, salario 
-                FROM $tablaBD";
-        $result = $cbd->query($query);
-        return $result;
+        try{
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
+            $stmt->execute();
+            return $stmt;
+        }
+        catch (Exception $e){
+            return ['status' => 'error', 'message' => 'Error al mostrar empleados'];
+        }
+        
     }
 
     public function editarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        $id = $datosC['id'];
-        $query = "SELECT id, nombre, email, apellido, puesto, salario
-                FROM $tablaBD WHERE id='$id'";
-        $result = $cbd->query($query);
-        $rows = $result->fetch_array(MYSQLI_ASSOC);
-        return $rows;
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $id = $datosC['id'];
+            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE id=:id");
+            $stmt->execute([':id'=>$id]);
+            $result=$stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error en selecion de empleado a editar'];
+        }
+        
     }
 
     public function actualizarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        extract($datosC);
-        $query = "UPDATE $tablaBD
-            SET id='$id', 
-            nombre='$nombre', 
-            apellido='$apellido', 
-            email='$email', 
-            puesto='$puesto', 
-            salario='$salario'
-            WHERE id='$id'";
-        echo $query;
-        $resultado = $cbd->query($query);
-        return $resultado;    
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            extract($datosC);
+            $stmt=$cbd->prepare("UPDATE $tablaBD
+                SET nombre=:nombre, 
+                apellido=:apellido, 
+                email=:email, 
+                puesto=:puesto, 
+                salario=:salario
+                WHERE id=:id");
+            $stmt->execute([':nombre'=>$nombre,
+                            ':apellido'=>$apellido,
+                            ':email'=>$email,
+                            ':puesto'=>$puesto,
+                            ':salario'=>$salario,
+                            ':id'=>$id]);
+
+            return ['status' => 'success', 'message' => 'empleado actualizado correctamente'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error al actualizar empleado'];
+        }
+       
+    }
+
+    public function buscarEmpleadoM($query, $tablaBD = 'empleados') {
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD 
+                                  WHERE estado=1 AND (nombre LIKE :query OR apellido LIKE :query OR email LIKE :query)");
+            $stmt->bindValue(':query', "%$query%", PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
     }
 
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){
-        $cbd = ConexionBD::cBD();
-        extract($datosC);
-        $query = "DELETE FROM $tablaBD WHERE id='$id'";
-        $resultado = $cbd->query($query);
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            extract($datosC);
+            $stmt=$cbd->prepare("UPDATE $tablaBD SET estado = 0 WHERE id=:id");
+            $stmt->execute([':id'=>$id]);
+            return ['status' => 'success', 'message' => 'Empleado eliminado'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'No se pudo eliminar'];
+        }
+        
     }
-} 
+}
 ?>

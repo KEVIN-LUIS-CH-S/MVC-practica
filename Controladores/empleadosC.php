@@ -7,15 +7,17 @@ class EmpleadosC {
     public function registrarEmpleadosC(){
         if(isset($_POST['nombreR'])){
             $datosC =array();
-            $datosC['nombre'] = $_POST['nombreR'];
-            $datosC['apellido'] = $_POST['apellidoR'];
-            $datosC['email'] = $_POST['emailR'];
-            $datosC['puesto'] = $_POST['puestoR'];
-            $datosC['salario'] = $_POST['salarioR'];
-
+            $datosC['nombre'] = Sanitizar::limpiar($_POST['nombreR']);
+            $datosC['apellido'] = Sanitizar::limpiar($_POST['apellidoR']);
+            $datosC['email'] = Sanitizar::limpiar($_POST['emailR']);
+            $datosC['puesto'] = Sanitizar::limpiar($_POST['puestoR']);
+            $datosC['salario'] = Sanitizar::limpiar($_POST['salarioR']);
             $result = $this->empleadosM->registrarEmpleadosM($datosC);
-         
-            header('location: index.php?ruta=empleados');
+            if (isset($result['status']) && $result['status'] == 'success') {
+                responderJSON($result);
+            }else{
+                responderJSON($result);
+            }    
         }
     }
 
@@ -37,27 +39,29 @@ class EmpleadosC {
     //actualizar empleados
     public function actualizarEmpleadoC(){
         if(isset($_POST['nombreE'])){
-            $datosC = array(    'id'=>$_POST['idE'],
-                                'nombre'=>$_POST['nombreE'],
-                                'apellido'=>$_POST['apellidoE'],
-                                'email' => $_POST['emailE'],
-                                'puesto' => $_POST['puestoE'],
-                                'salario' => $_POST['salarioE'],
+            $datosC = array(    'id'=>Sanitizar::limpiar($_POST['idE']),
+                                'nombre'=>Sanitizar::limpiar($_POST['nombreE']),
+                                'apellido'=>Sanitizar::limpiar($_POST['apellidoE']),
+                                'email' =>Sanitizar::limpiar($_POST['emailE']),
+                                'puesto' =>Sanitizar::limpiar($_POST['puestoE']),
+                                'salario' =>Sanitizar::limpiar($_POST['salarioE'])
                             );
-
             $result = $this->empleadosM->actualizarEmpleadoM($datosC);
-            header('location: index.php?rutas=empleados');
-            return $result;
+            responderJSON($result);
         }
     }
 
+    public function buscarEmpleadoC($letras){
+            $result = $this->empleadosM->buscarEmpleadoM($letras);
+            responderJSON($result);
+        }
+    
     //borrar empleado
     public function borrarEmpleadoC(){
         if(isset($_GET['id'])){
             $datosC = array('id' => $_GET['id']);
-            $tablaBD = 'empleados';
-            $this->empleadosM->borrarEmpleadoM($datosC, $tablaBD);
-            header('location: index.php?rutas=empleados');
+            $result=$this->empleadosM->borrarEmpleadoM($datosC);
+            responderJSON($result);
         }
     }
 }
