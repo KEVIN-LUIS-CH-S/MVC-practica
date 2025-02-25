@@ -90,6 +90,18 @@ class EmpleadosM extends ConexionBD{
         }
     }
 
+    public function contarEmpleadosPorPuestoM($tablaBD = 'empleados'){
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT puesto, COUNT(*) as cantidad FROM $tablaBD WHERE estado=1 GROUP BY puesto");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error al contar empleados'];
+        }
+    }
+    
+
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){
         try {
             $cbd = ConexionBD::cBD('pdo');

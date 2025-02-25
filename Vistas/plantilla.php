@@ -24,5 +24,6 @@
 	<script src="Vistas/js/sweetalert2.min.js"></script>
 	<script src="Vistas/js/modal.js"></script>
 	<script src="Vistas/js/funcionalidades.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

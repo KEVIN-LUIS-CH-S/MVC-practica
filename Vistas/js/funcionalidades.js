@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }); 
+    
 
     // Nueva funcionalidad aqui
 

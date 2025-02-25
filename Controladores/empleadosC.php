@@ -55,6 +55,16 @@ class EmpleadosC {
             $result = $this->empleadosM->buscarEmpleadoM($letras);
             responderJSON($result);
         }
+
+    public function contarEmpleadosPorPuestoC(){
+        $datos = $this->empleadosM->contarEmpleadosPorPuestoM(); 
+        
+        $labels = array_column($datos, 'puesto');
+        $values = array_column($datos, 'cantidad');
+
+        responderJSON(['labels' => $labels, 'values' => $values]);
+    }
+        
     
     //borrar empleado
     public function borrarEmpleadoC(){

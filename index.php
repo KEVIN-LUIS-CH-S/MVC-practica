@@ -29,7 +29,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'buscar' && isset($_GET['query'
     exit();
 }
 
-
 // Evitar cargar la plantilla si es una petición AJAX
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
     exit;
