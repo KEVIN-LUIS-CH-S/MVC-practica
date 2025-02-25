@@ -3,10 +3,11 @@ class RutasM{
     public function procesaRutasM($ruta){
         if( $ruta == "ingresoAdmin" ||
             $ruta == "registroAdmin" || 
-            $ruta == 'empleados' || 
-            $ruta == 'registrarEmple' || 
-            $ruta == 'salir' ||
-            $ruta == 'editarEmple')
+            $ruta == 'dashboard' ||
+            $ruta == 'empleados' ||
+            $ruta == 'registrarEmple' ||
+            $ruta == 'editarEmple' ||
+            $ruta == 'salir')
         {
             $pagina = "Vistas/modulos/".$ruta. ".php";
         }
