@@ -13,14 +13,33 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Editar empleado - Modal
-    document.querySelectorAll(".abrirModalEditar").forEach(btn => {
-        btn.addEventListener("click", function() {
-            let idEmpleado = this.getAttribute("data-id");
+    document.addEventListener("click", function(event) {
+        let target = event.target;
+    
+        if (target.classList.contains("abrirModalEditar")) {
+            let idEmpleado = target.getAttribute("data-id");
+            console.log("Botón Editar clickeado con ID:", idEmpleado);
+    
             cargarModal("index.php?ruta=editarEmple", "contenidoModal", "formEditarEmpleado", { id: idEmpleado });
             document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
-            new bootstrap.Modal(document.getElementById("modalGeneral")).show();
-        });
+    
+            let modalElement = document.getElementById("modalGeneral");
+            let modal = new bootstrap.Modal(modalElement);
+    
+            // 🛠️ Solución: Limpiar backdrops antes de mostrar el modal
+            document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+    
+            modal.show();
+    
+            // 🛠️ Solución extra: Asegurar que solo quede un fondo al cerrar
+            modalElement.addEventListener("hidden.bs.modal", function () {
+                document.body.classList.remove("modal-open");
+                document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+            });
+        }
     });
+    
+    
 
     // Eliminar empleado con SweetAlert2
     document.querySelectorAll(".btnEliminar").forEach(btn => {
