@@ -1,4 +1,4 @@
-<?php  //Controladores/adminC.php
+<?php  // Controladores/adminC.php
 class AdminC{
     function __construct(){
         $this->adminM = new AdminM();

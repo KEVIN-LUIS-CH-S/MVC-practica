@@ -1,10 +1,10 @@
+//Vistas/js/busquedaEmple.js
+
 document.getElementById('busqueda').addEventListener('input', function() {
     let query = this.value.trim();
     fetch('index.php?ruta=empleados&action=buscar&query=' + encodeURIComponent(query))
         .then(response => response.json())
-        .then(data => {
-            console.log("Resultados recibidos:", data); // 📌 Verifica los datos en consola
-            
+        .then(data => {      
             let tbody = document.getElementById('tablaEmpleados');
             tbody.innerHTML = ''; // Borra la tabla
 
@@ -21,13 +21,10 @@ document.getElementById('busqueda').addEventListener('input', function() {
                 `;
                 tbody.appendChild(tr);
             });
-
-            // 📌 Verificamos si los botones existen después de actualizar la tabla
-            console.log("Botones después de actualizar la tabla:", document.querySelectorAll(".abrirModalEditar").length);
         });
 });
 
-    // 📌 Delegación de eventos para los botones
+
 document.getElementById('tablaEmpleados').addEventListener('click', function(event) {
     let target = event.target;
 
@@ -37,20 +34,17 @@ document.getElementById('tablaEmpleados').addEventListener('click', function(eve
     
         if (target.classList.contains("abrirModalEditar")) {
             let idEmpleado = target.getAttribute("data-id");
-            console.log("Botón Editar clickeado con ID:", idEmpleado);
-    
             cargarModal("index.php?ruta=editarEmple", "contenidoModal", "formEditarEmpleado", { id: idEmpleado });
             document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
-    
             let modalElement = document.getElementById("modalGeneral");
             let modal = new bootstrap.Modal(modalElement);
     
-            // 🛠️ Solución: Limpiar backdrops antes de mostrar el modal
+            // Limpiar backdrops antes de mostrar el modal
             document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
     
             modal.show();
     
-            // 🛠️ Solución extra: Asegurar que solo quede un fondo al cerrar
+            // Asegurar que solo quede un fondo al cerrar
             modalElement.addEventListener("hidden.bs.modal", function () {
                 document.body.classList.remove("modal-open");
                 document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
@@ -86,15 +80,8 @@ document.getElementById('tablaEmpleados').addEventListener('click', function(eve
                     }).then(() => {
                         if (data.status === "success") {
                             target.closest("tr").remove();
-                            //window.location.reload(); // Recargar la página si se eliminó correctamente
                         }
                     });
-                    /*if (data.success) {
-                        target.closest("tr").remove(); // Elimina la fila de la tabla
-                        Swal.fire("Eliminado", "El empleado ha sido eliminado", "success");
-                    } else {
-                        Swal.fire("Error", "No se pudo eliminar el empleado", "error");
-                    }*/
                 });
             }
         });

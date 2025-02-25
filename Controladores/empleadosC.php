@@ -12,9 +12,6 @@ class EmpleadosC {
             $datosC['email'] = Sanitizar::limpiar($_POST['emailR']);
             $datosC['puesto'] = Sanitizar::limpiar($_POST['puestoR']);
             $datosC['salario'] = Sanitizar::limpiar($_POST['salarioR']);
-            
-            error_log('Datos recibidos: ' . print_r($datos, true));
-
             $result = $this->empleadosM->registrarEmpleadosM($datosC);
             if (isset($result['status']) && $result['status'] == 'success') {
                 responderJSON($result);

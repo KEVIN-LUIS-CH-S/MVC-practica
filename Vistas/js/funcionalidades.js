@@ -1,4 +1,4 @@
-// Vistas/funcionalidades.js
+// Vistas/js/funcionalidades.js
 
 document.addEventListener("DOMContentLoaded", function() {
     const btnAbrirModal = document.getElementById("abrirModalRegistro");
@@ -24,11 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
     
             let modalElement = document.getElementById("modalGeneral");
-            let modal = new bootstrap.Modal(modalElement);
-    
-            // 🛠️ Solución: Limpiar backdrops antes de mostrar el modal
-            document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
-    
+            let modal = new bootstrap.Modal(modalElement); 
             modal.show();
     
             // 🛠️ Solución extra: Asegurar que solo quede un fondo al cerrar
@@ -37,43 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
             });
         }
-    });
-    
-    
-
-    // Eliminar empleado con SweetAlert2
-    document.querySelectorAll(".btnEliminar").forEach(btn => {
-        btn.addEventListener("click", function() {
-            let idEmpleado = this.getAttribute("data-id");
-            let nombre = this.getAttribute("data-nombre");
-            let apellido = this.getAttribute("data-apellido");
-
-            Swal.fire({
-                title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,
-                text: "Esta acción no se puede deshacer",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`index.php?ruta=empleados&id=${idEmpleado}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        Swal.fire({
-                            icon: data.status === "success" ? "success" : "error",
-                            title: data.message
-                        }).then(() => {
-                            if (data.status === "success") {
-                                window.location.reload(); // Recargar la página si se eliminó correctamente
-                            }
-                        });
-                    })
-                    .catch(error => console.error("❌ Error en fetch:", error));
-                }
-            });
-        });
-    });
+    }); 
 
     // Nueva funcionalidad aqui
 

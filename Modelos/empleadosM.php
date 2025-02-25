@@ -1,4 +1,4 @@
-<?php  //Modelos/empleadosM.php
+<?php  // Modelos/empleadosM.php
 require_once "conexionBD.php";
 
 class EmpleadosM extends ConexionBD{

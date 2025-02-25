@@ -1,4 +1,4 @@
-<?php  //Modelos/adminM.php
+<?php  // Modelos/adminM.php
     require_once "conexionBD.php";
 
     class AdminM extends ConexionBD{

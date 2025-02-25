@@ -1,5 +1,4 @@
-<?php  //Modelos/conexcionBD.php
-// Modelos/conexionBD.php
+<?php  // Modelos/conexcionBD.php
 class ConexionBD {
     // Configuración de la base de datos
     private static $host = 'localhost';
