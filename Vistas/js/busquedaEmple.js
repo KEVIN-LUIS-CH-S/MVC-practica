@@ -21,6 +21,7 @@ document.getElementById('busqueda').addEventListener('input', function() {
                 `;
                 tbody.appendChild(tr);
             });
+            document.getElementById('exportarPDF').href = `index.php?action=exportarPdf&query=${encodeURIComponent(query)}`;
         });
 });
 

@@ -1,54 +1,30 @@
 <?php // Controladores/exportarPdf.php
 require_once 'Librerias/TCPDF/tcpdf.php';
 
-$pdf = new TCPDF();
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Tu Empresa');
-$pdf->SetTitle('Lista de Empleados');
-$pdf->SetHeaderData('', 0, 'Lista de Empleados', 'Generado automáticamente');
-
-// Establecer márgenes
-$pdf->SetMargins(10, 20, 10);
-$pdf->SetHeaderMargin(5);
-$pdf->SetFooterMargin(10);
-$pdf->SetAutoPageBreak(true, 15);
-
-// Agregar página
-$pdf->AddPage();
-
-// Contenido del PDF
-$html = '<h2>Lista de Empleados</h2>';
-$html .= '<table border="1" cellpadding="5">
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Puesto</th>
-                <th>Salario</th>
-            </tr>';
-
 $empleadosM = new EmpleadosM();
-$empleados = $empleadosM->mostrarEmpleadosM();
 
-foreach ($empleados as $empleado) {
-    $html .= '<tr>
-                 <td>' . $empleado['id'] . '</td>
-                 <td>' . $empleado['nombre'] . '</td>
-                 <td>' . $empleado['apellido'] . '</td>
-                 <td>' . $empleado['email'] . '</td>
-                 <td>' . $empleado['puesto'] . '</td>
-                 <td>' . $empleado['salario'] . '</td>
-             </tr>';
+// Si hay una búsqueda, filtra los empleados
+$query = isset($_GET['query']) ? trim($_GET['query']) : null;
+
+if ($query) {
+    $empleados = $empleadosM->buscarEmpleadoM($query); // Cuando hay búsqueda
+} else {
+    $empleados = $empleadosM->mostrarEmpleadosM(); // Cuando no hay búsqueda
+}
+
+$pdf = new TCPDF();
+$pdf->AddPage();
+$pdf->SetFont('Helvetica', '', 12);
+
+$html = '<h1>Lista de Empleados</h1><table border="1"><tr><th>Nombre</th><th>Apellido</th><th>Email</th><th>Puesto</th><th>Salario</th></tr>';
+foreach ($empleados as $emp) {
+    $html .= "<tr><td>{$emp['nombre']}</td><td>{$emp['apellido']}</td><td>{$emp['email']}</td><td>{$emp['puesto']}</td><td>{$emp['salario']}</td></tr>";
 }
 $html .= '</table>';
 
-// Escribir el contenido en el PDF
 $pdf->writeHTML($html, true, false, true, false, '');
-
-// Salida del PDF
 $pdf->Output('empleados.pdf', 'D');
-exit;
 
+exit;
 
 ?>
