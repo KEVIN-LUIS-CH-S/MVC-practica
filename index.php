@@ -16,6 +16,11 @@ require_once 'Modelos/empleadosM.php';
 
 $rutasC = new RutasC();
 
+if (isset($_GET['action']) && $_GET['action'] == 'exportarPdf') {
+    require_once 'Controladores/exportarPDF.php';
+    exit();
+}
+
 $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : "";
 
 if (!isset($_SESSION["Ingreso"]) && $ruta !== "ingresoAdmin") { 

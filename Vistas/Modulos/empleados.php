@@ -53,8 +53,8 @@ $empleados->borrarEmpleadoC();
     Registrar Nuevo Empleado
 </button>
 
-<!-- Botón para exportar a Excel -->
-<button id="exportarExcel" class="btn btn-success">Exportar a Excel</button>
+<a id="exportarPDF" href="index.php?action=exportarPdf" class="btn btn-danger">Exportar a PDF</a>
+
 
 <!-- Modal de Bootstrap -->
 <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneralLabel" aria-hidden="true">
@@ -72,8 +72,3 @@ $empleados->borrarEmpleadoC();
 </div>
 
 <script src="Vistas/js/busquedaEmple.js"></script>
-<script>
-document.getElementById('exportarExcel').addEventListener('click', function () {
-    window.location.href = 'index.php?action=exportarExcel';
-});
-</script>
