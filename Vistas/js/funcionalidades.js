@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         if (target.classList.contains("abrirModalEditar")) {
             let idEmpleado = target.getAttribute("data-id");
-            console.log("Botón Editar clickeado con ID:", idEmpleado);
     
             cargarModal("index.php?ruta=editarEmple", "contenidoModal", "formEditarEmpleado", { id: idEmpleado });
             document.getElementById("modalGeneralLabel").innerText = "Editar Empleado";
