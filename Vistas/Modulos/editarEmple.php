@@ -1,4 +1,8 @@
 <?php	/* Vistas/Modulos/editarEmple.php */
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("Location: index.php?ruta=dashboard");
+    exit();
+}
 $empleados = new EmpleadosC();
 $resultado = $empleados->editarEmpleadoC();
 $empleados->actualizarEmpleadoC();

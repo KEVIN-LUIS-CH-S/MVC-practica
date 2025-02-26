@@ -59,8 +59,6 @@ document.getElementById('tablaEmpleados').addEventListener('click', function(eve
         let nombre = target.getAttribute("data-nombre");
         let apellido = target.getAttribute("data-apellido");
 
-        console.log("Botón Eliminar clickeado con ID:", idEmpleado); // 📌 Depuración
-
         Swal.fire({
             title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,
             text: "Esta acción no se puede deshacer",

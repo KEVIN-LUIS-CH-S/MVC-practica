@@ -31,7 +31,7 @@ $ingreso->ingresoC();
                 title: data.message
             }).then(() => {
                 if (data.status === 'success') {
-                    window.location.href = 'index.php?ruta=empleados';
+                    window.location.href = 'index.php?ruta=dashboard';
                 }
             });
         })

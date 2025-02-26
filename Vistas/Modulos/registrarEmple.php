@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SERVER["HTTP_REFERER"])) {
+    header("Location: index.php?ruta=dashboard");
+    exit();
+}
 $registrar = new EmpleadosC();
 $registrar->registrarEmpleadosC();
 ?>

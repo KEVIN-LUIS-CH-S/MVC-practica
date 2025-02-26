@@ -16,6 +16,13 @@ require_once 'Modelos/empleadosM.php';
 
 $rutasC = new RutasC();
 
+$ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : "";
+
+if (!isset($_SESSION["Ingreso"]) && $ruta !== "ingresoAdmin") { 
+    header("Location: index.php?ruta=ingresoAdmin"); 
+    exit();
+}
+
 // Si la solicitud es para un modal, solo devolver el contenido sin la plantilla
 if (isset($_GET['modal']) && $_GET['modal'] == 'true') {
     $modulo = $rutasC->procesaRutasC();
@@ -28,7 +35,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'buscar' && isset($_GET['query'
     $empleados->buscarEmpleadoC($_GET['query']);
     exit();
 }
-
 
 // Evitar cargar la plantilla si es una petición AJAX
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {

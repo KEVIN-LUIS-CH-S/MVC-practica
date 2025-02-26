@@ -6,7 +6,7 @@ class AdminC{
 
     public function ingresoC(){
         if(isset($_SESSION['Ingreso']))
-            header("location: index.php?ruta=empleados");
+            header("location: index.php?ruta=dashboard");
 
         if(isset($_POST["usuarioI"])){
             $datosC = array(    
