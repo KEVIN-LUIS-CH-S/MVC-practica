@@ -1,9 +1,4 @@
 <?php
-/*if (!isset($_SESSION["Ingreso"])) { 
-    header("Location: index.php?ruta=ingresoAdmin"); // 🔴 Redirige al login si no hay sesión activa
-    exit();
-}*/
-
 $empleados = new EmpleadosC();
 $pagina = $empleados->mostrarEmpleadosC();
 $empleados->borrarEmpleadoC();
@@ -58,6 +53,9 @@ $empleados->borrarEmpleadoC();
     Registrar Nuevo Empleado
 </button>
 
+<!-- Botón para exportar a Excel -->
+<button id="exportarExcel" class="btn btn-success">Exportar a Excel</button>
+
 <!-- Modal de Bootstrap -->
 <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneralLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -74,3 +72,8 @@ $empleados->borrarEmpleadoC();
 </div>
 
 <script src="Vistas/js/busquedaEmple.js"></script>
+<script>
+document.getElementById('exportarExcel').addEventListener('click', function () {
+    window.location.href = 'index.php?action=exportarExcel';
+});
+</script>

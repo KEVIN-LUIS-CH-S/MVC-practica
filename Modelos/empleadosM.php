@@ -30,7 +30,8 @@ class EmpleadosM extends ConexionBD{
             $cbd = ConexionBD::cBD('pdo');
             $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
             $stmt->execute();
-            return $stmt;
+            $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }
         catch (Exception $e){
             return ['status' => 'error', 'message' => 'Error al mostrar empleados'];

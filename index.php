@@ -9,10 +9,18 @@ require_once 'Controladores/empleadosC.php';
 
 require_once 'Helpers/sanitizar.php';
 require_once 'Helpers/responderJson.php';
+require_once 'autoload.php';
 
 require_once 'Modelos/rutasM.php';
 require_once 'Modelos/adminM.php';
 require_once 'Modelos/empleadosM.php';
+
+// Si la acción es exportar empleados a Excel
+if (isset($_GET['action']) && $_GET['action'] == 'exportarExcel') {
+    require_once 'Controladores/exportarExcel.php';
+    exit();
+}
+
 
 $rutasC = new RutasC();
 
