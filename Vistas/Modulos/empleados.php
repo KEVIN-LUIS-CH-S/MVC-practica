@@ -1,4 +1,9 @@
 <?php
+/*if (!isset($_SESSION["Ingreso"])) { 
+    header("Location: index.php?ruta=ingresoAdmin"); // 🔴 Redirige al login si no hay sesión activa
+    exit();
+}*/
+
 $empleados = new EmpleadosC();
 $pagina = $empleados->mostrarEmpleadosC();
 $empleados->borrarEmpleadoC();
