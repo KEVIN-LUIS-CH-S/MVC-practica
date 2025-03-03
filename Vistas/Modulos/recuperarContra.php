@@ -1,4 +1,7 @@
-
+<?php
+    $recuperar = new recuperarCorreoC();
+    $resultado = $recuperar->enviarCorreo($destinatario, $asunto, $cuerpo);
+?>
 
 <form id="formRecuperar" method="POST">
     <label for="email">Ingresa tu correo:</label>
