@@ -6,6 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once 'Controladores/rutasC.php';
 require_once 'Controladores/adminC.php';
 require_once 'Controladores/empleadosC.php';
+require_once 'Controladores/recuperarCorreoC.php';
+
 
 require_once 'Helpers/sanitizar.php';
 require_once 'Helpers/responderJson.php';
@@ -13,6 +15,7 @@ require_once 'Helpers/responderJson.php';
 require_once 'Modelos/rutasM.php';
 require_once 'Modelos/adminM.php';
 require_once 'Modelos/empleadosM.php';
+require_once 'Modelos/recuperarCorreoM.php';
 
 $rutasC = new RutasC();
 
