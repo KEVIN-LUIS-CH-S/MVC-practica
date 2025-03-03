@@ -23,10 +23,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportarPdf') {
 
 $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : "";
 
-if (!isset($_SESSION["Ingreso"]) && $ruta !== "ingresoAdmin") { 
+$paginasPermitidas = ["ingresoAdmin", "recuperarContra"]; // Rutas que pueden entrar sin sesión
+
+if (!isset($_SESSION["Ingreso"]) && !in_array($ruta, $paginasPermitidas)) { 
     header("Location: index.php?ruta=ingresoAdmin"); 
     exit();
 }
+
 
 // Si la solicitud es para un modal, solo devolver el contenido sin la plantilla
 if (isset($_GET['modal']) && $_GET['modal'] == 'true') {
