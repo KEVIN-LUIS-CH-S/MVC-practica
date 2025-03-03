@@ -16,7 +16,7 @@ class CorreoC {
             $mail->Host = 'smtp.gmail.com'; // Servidor SMTP (depende del proveedor)
             $mail->SMTPAuth = true;
             $mail->Username = 'regacadd@gmail.com'; // Tu correo
-            $mail->Password = 'grupociber2024'; // Tu contraseña o App Password
+            $mail->Password = 'lffesurqtdoiddsx'; // Tu contraseña o App Password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587; // Puerto SMTP (puede ser 465 o 587)
 

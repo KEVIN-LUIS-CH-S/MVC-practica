@@ -10,6 +10,8 @@
     <input type="submit" value="Ingresar">
 </form>
 
+<a href="index.php?ruta=recuperarContra">¿Olvide mi contraseña?</a>
+
 <?php
 $ingreso = new AdminC();
 $ingreso->ingresoC();
