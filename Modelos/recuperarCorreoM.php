@@ -20,6 +20,7 @@ class RecuperarcorreoM extends ConexionBD{
             $stmt=$cbd->prepare("UPDATE $tabla SET codigo = :codigo, codigo_expira = NOW() + INTERVAL 6 MINUTE WHERE email = :email");
             $stmt->execute([':codigo'=>$codigo,
                             ':email'=>$destinatario]);
+            return true;
             } catch (Exception $e) {
                 return false;
             }
