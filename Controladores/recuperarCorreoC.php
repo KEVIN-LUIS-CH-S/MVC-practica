@@ -12,21 +12,32 @@ class recuperarCorreoC {
         $this->correoM = new recuperarCorreoM();
     }
 
-    public function enviarCorreo($destinatario, $asunto, $cuerpo) {
+    public function enviarCorreoC() {
         if(isset($_POST['email'])){
-            $email=Sanitizar::limpiar($_POST['email']);
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $destinatario=Sanitizar::limpiar($_POST['email']);
+            
+            if (!filter_var($destinatario, FILTER_VALIDATE_EMAIL)) {
                 responderJSON(['status' => 'error', 'message' => 'Correo inválido']);
                 exit;
             }
     
-            $usuario = $this->$correoM->verificarEmail($email);
+            $usuario = $this->correoM->verificarEmailM($destinatario);
             if (!$usuario) {
                 responderJSON(['status' => 'error', 'message' => 'Correo no registrado']);
                 exit;
             }
     
             $codigo = rand(100000, 999999);
+            $guardar = $this->correoM->guardarCodigoM($destinatario,$codigo);
+            if (!$guardar) {
+                responderJSON(['status' => 'error', 'message' => 'No se pudo guardar el código.']);
+                exit;
+            }
+            
+
+            $asunto="Restablecer contraseña";
+            $cuerpo = "<h2>Hola,</h2><p>Tu código de recuperación es: <strong>$codigo</strong></p>";
+
     
             $mail = new PHPMailer(true);
             
@@ -55,15 +66,16 @@ class recuperarCorreoC {
         }
     }
 
-    /*$email = trim($_POST['email']);
-    $codigo = trim($_POST['codigo']);
-
-    $verificado = RecuperarM::verificarCodigo($email, $codigo);
-    if ($verificado) {
-        echo json_encode(['status' => 'success', 'message' => 'Código correcto']);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Código incorrecto o expirado']);
-    }*/
-
+    public function verificarCodigoC() {
+        if(isset($_POST['codigo'])){
+            $codigo = Sanitizar::limpiar($_POST['codigo']);
+            $verificado=$this->correoM->verificarCodigoM($codigo);
+            if ($verificado) {
+                responderJSON(['status' => 'success', 'message' => 'Código correcto']);
+            } else {
+                responderJSON(['status' => 'error', 'message' => 'Código incorrecto o expirado']);
+            }
+        }
+    }
 }
 ?>
