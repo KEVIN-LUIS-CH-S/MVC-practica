@@ -8,12 +8,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'restablecer') {
 
 <form id="formCorreo">
     <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
-    <button type="submit">Enviar código</button>
+    <input type="submit">
 </form>
 
 <script>
 document.getElementById('formCorreo').addEventListener('submit', function(event) {
     event.preventDefault();
+    const formData = new FormData(this);
     
     let email = document.getElementById('email').value.trim();
     if (!email) {
@@ -32,10 +33,7 @@ document.getElementById('formCorreo').addEventListener('submit', function(event)
 
     fetch('index.php?ruta=restablecerContra&action=restablecer', {
         method: 'POST',
-        /*headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: 'email=' + encodeURIComponent(email)*/
+        body: formData
     })
     .then(response => response.json())
     .then(result => {
