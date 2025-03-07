@@ -30,7 +30,8 @@ class EmpleadosM extends ConexionBD{
             $cbd = ConexionBD::cBD('pdo');
             $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
             $stmt->execute();
-            return $stmt;
+            $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }
         catch (Exception $e){
             return ['status' => 'error', 'message' => 'Error al mostrar empleados'];
@@ -89,6 +90,36 @@ class EmpleadosM extends ConexionBD{
             return [];
         }
     }
+
+    public function contarEmpleadosPorPuestoM($tablaBD = 'empleados'){
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT puesto, COUNT(*) as cantidad FROM $tablaBD WHERE estado=1 GROUP BY puesto");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error al contar empleados'];
+        }
+    }
+
+    public function registrosRecientesM() {
+        try {
+            $cbd = ConexionBD::cBD('pdo')->prepare("
+            SELECT nombre, apellido, fecha_ingreso 
+                                           FROM empleados 
+                                           WHERE fecha_ingreso >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) 
+                                           AND estado = 1
+        ");
+        
+        $cbd->execute();
+        return $cbd->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return(["status" => "error", "message" => "Error en la consulta preparada"]);
+        }
+        
+    }
+    
+    
 
     public function borrarEmpleadoM($datosC, $tablaBD = 'empleados'){
         try {
