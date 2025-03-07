@@ -77,6 +77,22 @@ class RecuperarcorreoM extends ConexionBD{
             return false;
         }
     }
+
+    public function actualizarContraM($email, $nuevaContra) {
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+    
+            $stmt = $cbd->prepare("UPDATE administradores SET password = :password WHERE email = :email");
+            $stmt->execute([
+                ':password' => $nuevaContra,
+                ':email' => $email
+            ]);
+    
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
 
 ?>

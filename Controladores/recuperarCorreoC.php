@@ -68,9 +68,12 @@ class recuperarCorreoC {
     }
 
     public function verificarCodigoC() {
-        if(isset($_POST['codigo'])){
+        if (isset($_POST['codigo']) && isset($_POST['email'])) {
             $codigo = Sanitizar::limpiar($_POST['codigo']);
-            $verificado=$this->correoM->verificarCodigoM($codigo);
+            $email = Sanitizar::limpiar($_POST['email']); // Obtener el email
+    
+            $verificado = $this->correoM->verificarCodigoM($email, $codigo); // Pasar el email
+    
             if ($verificado) {
                 responderJSON(['status' => 'success']);
             } else {
@@ -108,5 +111,20 @@ class recuperarCorreoC {
             responderJSON(['status' => 'error', 'message' => 'No se pudo eliminar']);
         }
     }
+
+    public function actualizarContraC() {
+        if (!isset($_POST['nuevacontra'])) {
+            $email = Sanitizar::limpiar($_POST['email']);
+            $nuevaContra = Sanitizar::limpiar($_POST['nuevaContra']);
+            $actualizado = $this->correoM->actualizarContraM($email, $nuevaContra);
+        
+            if ($actualizado) {
+                responderJSON(['status' => 'success']);
+            } else {
+                responderJSON(['status' => 'error', 'message' => 'No se pudo actualizar la contraseña']);
+            }
+        }
+    }
+    
 }
 ?>

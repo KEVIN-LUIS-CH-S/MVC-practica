@@ -11,7 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'limpiarCodigo') {
     exit();
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'verificarCodigo') { 
+if (isset($_GET['action']) && $_GET['action'] == 'verificarCod') { 
     $recuperar = new recuperarCorreoC();
     $recuperar->verificarCodigoC(); 
     exit();
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         formData.append('email', email); // Agregar el email al formulario
 
-        fetch('index.php?ruta=verificarCodigo&action=verificarCodigo', {
+        fetch('index.php?ruta=verificarCodigo&action=verificarCod', {
             method: 'POST',
             body: formData
         })
