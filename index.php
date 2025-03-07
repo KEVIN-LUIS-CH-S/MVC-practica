@@ -26,7 +26,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportarPdf') {
 
 $ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : "";
 
-$paginasPermitidas = ["ingresoAdmin", "restablecerContra", "registroAdmin"]; // Rutas que pueden entrar sin sesión
+$paginasPermitidas = ["ingresoAdmin", "restablecerContra", "registroAdmin","verificarCodigo","actualizarContra"]; // Rutas que pueden entrar sin sesión
 
 if (!isset($_SESSION["Ingreso"]) && !in_array($ruta, $paginasPermitidas)) { 
     header("Location: index.php?ruta=ingresoAdmin"); 

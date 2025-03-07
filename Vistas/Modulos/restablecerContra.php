@@ -5,6 +5,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'restablecer') {
     exit();
 }
 ?>
+<p>Se le enviara un codigo de recuperacion a su correo registrado:</p>
 
 <form id="formCorreo">
     <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
@@ -15,12 +16,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'restablecer') {
 document.getElementById('formCorreo').addEventListener('submit', function(event) {
     event.preventDefault();
     const formData = new FormData(this);
-    
-    let email = document.getElementById('email').value.trim();
-    if (!email) {
-        Swal.fire('Error', 'Por favor, ingresa tu correo', 'error');
-        return;
-    }
 
     Swal.fire({
         title: 'Enviando código...',
