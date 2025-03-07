@@ -10,6 +10,8 @@
     <input type="submit" value="Ingresar">
 </form>
 
+<a href="index.php?ruta=restablecerContra">¿Olvide mi contraseña?</a>
+
 <?php
 $ingreso = new AdminC();
 $ingreso->ingresoC();
@@ -31,7 +33,7 @@ $ingreso->ingresoC();
                 title: data.message
             }).then(() => {
                 if (data.status === 'success') {
-                    window.location.href = 'index.php?ruta=empleados';
+                    window.location.href = 'index.php?ruta=dashboard';
                 }
             });
         })

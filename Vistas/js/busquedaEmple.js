@@ -21,6 +21,7 @@ document.getElementById('busqueda').addEventListener('input', function() {
                 `;
                 tbody.appendChild(tr);
             });
+            document.getElementById('exportarPDF').href = `index.php?action=exportarPdf&query=${encodeURIComponent(query)}`;
         });
 });
 
@@ -58,8 +59,6 @@ document.getElementById('tablaEmpleados').addEventListener('click', function(eve
         let idEmpleado = target.getAttribute("data-id");
         let nombre = target.getAttribute("data-nombre");
         let apellido = target.getAttribute("data-apellido");
-
-        console.log("Botón Eliminar clickeado con ID:", idEmpleado); // 📌 Depuración
 
         Swal.fire({
             title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,

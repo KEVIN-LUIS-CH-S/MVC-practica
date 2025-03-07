@@ -55,6 +55,26 @@ class EmpleadosC {
             $result = $this->empleadosM->buscarEmpleadoM($letras);
             responderJSON($result);
         }
+
+    public function contarEmpleadosPorPuestoC(){
+        $result = $this->empleadosM->contarEmpleadosPorPuestoM(); 
+        
+        $labels = array_column($result, 'puesto');
+        $values = array_column($result, 'cantidad');
+        responderJSON(['labels' => $labels, 'values' => $values]);
+    }
+
+    public function registrosRecientesC() {
+        $result = $this->empleadosM->registrosRecientesM();
+        
+        if ($result) {
+            responderJSON(["status" => "success", "data" => $result]);
+        } else {
+            responderJSON(["status" => "error", "message" => "No hay registros recientes"]);
+        }
+    }
+    
+        
     
     //borrar empleado
     public function borrarEmpleadoC(){

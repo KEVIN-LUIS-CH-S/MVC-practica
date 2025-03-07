@@ -53,6 +53,9 @@ $empleados->borrarEmpleadoC();
     Registrar Nuevo Empleado
 </button>
 
+<a id="exportarPDF" href="index.php?action=exportarPdf" class="btn btn-danger">Exportar a PDF</a>
+
+
 <!-- Modal de Bootstrap -->
 <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneralLabel" aria-hidden="true">
   <div class="modal-dialog">
