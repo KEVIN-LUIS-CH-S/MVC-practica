@@ -113,7 +113,7 @@ class recuperarCorreoC {
     }
 
     public function actualizarContraC() {
-        if (!isset($_POST['nuevacontra'])) {
+        if (isset($_POST['nuevaContra'])) {
             $email = Sanitizar::limpiar($_POST['email']);
             $nuevaContra = Sanitizar::limpiar($_POST['nuevaContra']);
             $actualizado = $this->correoM->actualizarContraM($email, $nuevaContra);

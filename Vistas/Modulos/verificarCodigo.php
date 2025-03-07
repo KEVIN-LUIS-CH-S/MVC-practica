@@ -1,4 +1,4 @@
-<?php
+<?php   //Vistas/Modulos/verificarCodigo.php
 if (isset($_GET['action']) && $_GET['action'] == 'obtenerTiempo') {
     $recuperar = new recuperarCorreoC();
     $recuperar->obtenerTiempoExpiracionC();
