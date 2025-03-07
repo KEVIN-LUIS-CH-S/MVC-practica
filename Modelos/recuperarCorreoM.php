@@ -78,13 +78,14 @@ class RecuperarcorreoM extends ConexionBD{
         }
     }
 
-    public function actualizarContraM($email, $nuevaContra) {
+    public function actualizarContraM($email, $nuevaContra, $tabla='administradores') {
         try {
             $cbd = ConexionBD::cBD('pdo');
-    
-            $stmt = $cbd->prepare("UPDATE administradores SET password = :password WHERE email = :email");
+            $actualContra=password_hash($nuevaContra, PASSWORD_DEFAULT);
+
+            $stmt = $cbd->prepare("UPDATE $tabla SET password = :password WHERE email = :email");
             $stmt->execute([
-                ':password' => $nuevaContra,
+                ':password' => $actualContra,
                 ':email' => $email
             ]);
     

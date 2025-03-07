@@ -8,7 +8,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'actualizar') {
 
 <p>Ingresa tu nueva contraseña:</p>
 
-<form id="formActualizar">
+<form id="formActualizar" method="post">
     <input type="password" id="nuevaContra" name="nuevaContra" placeholder="Nueva contraseña" required minlength="6">
     <input type="password" id="confirmarContra" name="confirmarContra" placeholder="Confirmar contraseña" required minlength="6">
     <input type="submit" value="Actualizar Contraseña">
@@ -26,7 +26,7 @@ document.getElementById('formActualizar').addEventListener('submit', function(ev
         return;
     }
 
-    const formData = new FormData();
+    const formData = new FormData(this);
     formData.append('email',email);
 
     fetch('index.php?ruta=actualizarContra&action=actualizar', {
