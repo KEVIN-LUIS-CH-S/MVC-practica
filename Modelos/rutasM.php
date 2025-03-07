@@ -4,6 +4,7 @@ class RutasM{
         if( $ruta == "ingresoAdmin" ||
             $ruta == 'restablecerContra' ||
             $ruta == 'verificarCodigo' ||
+            $ruta == 'actualizarContra' ||
             $ruta == "registroAdmin" || 
             $ruta == 'dashboard' ||
             $ruta == 'empleados' ||
