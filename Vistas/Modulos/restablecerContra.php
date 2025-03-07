@@ -16,6 +16,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'restablecer') {
 document.getElementById('formCorreo').addEventListener('submit', function(event) {
     event.preventDefault();
     const formData = new FormData(this);
+    const email = document.getElementById('email').value; // Obtener el email
 
     Swal.fire({
         title: 'Enviando código...',
@@ -33,6 +34,8 @@ document.getElementById('formCorreo').addEventListener('submit', function(event)
     .then(response => response.json())
     .then(result => {
         if (result.status === 'success') {
+            localStorage.setItem('email', email); // Guardar el email en localStorage
+
             Swal.fire({
                 title: 'Código enviado',
                 text: 'Revisa tu correo electrónico',

@@ -72,7 +72,7 @@ class recuperarCorreoC {
             $codigo = Sanitizar::limpiar($_POST['codigo']);
             $verificado=$this->correoM->verificarCodigoM($codigo);
             if ($verificado) {
-                responderJSON(['status' => 'success', 'message' => 'Código correcto']);
+                responderJSON(['status' => 'success']);
             } else {
                 responderJSON(['status' => 'error', 'message' => 'Código incorrecto o expirado']);
             }
@@ -80,16 +80,33 @@ class recuperarCorreoC {
     }
 
     public function obtenerTiempoExpiracionC() {
+        if(isset($_POST['email'])){
+            $email = $_POST['email'];
+            $tiempoRestante = $this->correoM->obtenerTiempoExpiracionM($email);
+    
+            if ($tiempoRestante === null) {
+                responderJSON(['status' => 'error', 'message' => 'No hay código activo']);
+                exit;
+            }
+    
+            responderJSON(['status' => 'success', 'tiempo_restante' => $tiempoRestante]);
+        }
+    }
 
-        $email = $_POST['email'];
-        $tiempoRestante = $this->modelo->obtenerTiempoExpiracionM($email);
-
-        if ($tiempoRestante === null) {
-            responderJSON(['status' => 'error', 'message' => 'No hay código activo']);
+    public function limpiarCodigosExpiradosC() {
+        if (!isset($_POST['email'])) {
+            responderJSON(['status' => 'error', 'message' => 'Correo no recibido']);
             exit;
         }
 
-        responderJSON(['status' => 'success', 'tiempo_restante' => $tiempoRestante]);
+        $email = $_POST['email'];
+        $eliminado = $this->correoM->limpiarCodigosExpiradosM($email);
+
+        if ($eliminado) {
+            responderJSON(['status' => 'success', 'message' => 'Código eliminado']);
+        } else {
+            responderJSON(['status' => 'error', 'message' => 'No se pudo eliminar']);
+        }
     }
 }
 ?>
