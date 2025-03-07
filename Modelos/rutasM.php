@@ -3,6 +3,7 @@ class RutasM{
     public function procesaRutasM($ruta){
         if( $ruta == "ingresoAdmin" ||
             $ruta == 'restablecerContra' ||
+            $ruta == 'verificarCodigo' ||
             $ruta == "registroAdmin" || 
             $ruta == 'dashboard' ||
             $ruta == 'empleados' ||

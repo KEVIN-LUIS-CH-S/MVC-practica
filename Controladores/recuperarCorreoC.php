@@ -29,8 +29,9 @@ class recuperarCorreoC {
     
             $codigo = rand(100000, 999999);
             $guardar = $this->correoM->guardarCodigoM($destinatario,$codigo);
+            
             if (!$guardar) {
-                responderJSON(['status' => 'error', 'message' => 'No se pudo guardar el código.']);
+                responderJSON(['status' => 'error', 'message' => 'Aún tienes un código activo o hubo un problema.']);
                 exit;
             }
             
@@ -76,6 +77,19 @@ class recuperarCorreoC {
                 responderJSON(['status' => 'error', 'message' => 'Código incorrecto o expirado']);
             }
         }
+    }
+
+    public function obtenerTiempoExpiracionC() {
+
+        $email = $_POST['email'];
+        $tiempoRestante = $this->modelo->obtenerTiempoExpiracionM($email);
+
+        if ($tiempoRestante === null) {
+            responderJSON(['status' => 'error', 'message' => 'No hay código activo']);
+            exit;
+        }
+
+        responderJSON(['status' => 'success', 'tiempo_restante' => $tiempoRestante]);
     }
 }
 ?>

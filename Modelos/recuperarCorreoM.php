@@ -17,6 +17,16 @@ class RecuperarcorreoM extends ConexionBD{
     public function guardarCodigoM($destinatario, $codigo, $tabla='administradores') {
         try {
             $cbd= ConexionBD::cBD('pdo');
+
+            // Verificar si ya hay un código válido
+            $stmt = $cbd->prepare("SELECT codigo_expira FROM $tabla WHERE email = :email AND codigo_expira > NOW()");
+            $stmt->execute([':email' => $destinatario]);
+            $codigo_existente = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($codigo_existente) {
+                return false;
+            }
+
             $stmt=$cbd->prepare("UPDATE $tabla SET codigo = :codigo, codigo_expira = NOW() + INTERVAL 6 MINUTE WHERE email = :email");
             $stmt->execute([':codigo'=>$codigo,
                             ':email'=>$destinatario]);
@@ -30,7 +40,7 @@ class RecuperarcorreoM extends ConexionBD{
         try {
             $pdo = ConexionBD::cBD()->prepare("UPDATE usuarios SET codigo = NULL WHERE codigo_expira < NOW()");
             $pdo->execute();
-            } catch (Exception $e) {
+        } catch (Exception $e) {
                 return ['status' => 'error', 'message' => '¡Error en la consulta limpiarCodigo'];
             }
         }
