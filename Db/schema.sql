@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2025 a las 15:16:34
+-- Tiempo de generación: 05-03-2025 a las 17:35:19
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -30,13 +30,14 @@ USE `crud`;
 -- Estructura de tabla para la tabla `administradores`
 --
 
-DROP TABLE IF EXISTS `administradores`;
 CREATE TABLE `administradores` (
   `id` int(11) NOT NULL,
   `usuario` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `codigo` varchar(10) DEFAULT NULL,
+  `codigo_expira` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -45,7 +46,6 @@ CREATE TABLE `administradores` (
 -- Estructura de tabla para la tabla `empleados`
 --
 
-DROP TABLE IF EXISTS `empleados`;
 CREATE TABLE `empleados` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `empleados` (
   `email` varchar(100) NOT NULL,
   `puesto` varchar(50) NOT NULL,
   `salario` decimal(10,2) NOT NULL CHECK (`salario` >= 0),
-  `fecha_ingreso` date NOT NULL,
+  `fecha_ingreso` date DEFAULT curdate(),
   `estado` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
