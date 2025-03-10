@@ -21,6 +21,11 @@ class EmpleadosC {
         }
     }
 
+    public function obtenerPuestosC(){
+        $result=$this->empleadosM->obtenerPuestosM();
+        return $result;
+    }
+
     //mostrar empleados
     public function mostrarEmpleadosC(){
         $result = $this->empleadosM->mostrarEmpleadosM();
@@ -34,6 +39,7 @@ class EmpleadosC {
             $result = $this->empleadosM->editarEmpleadoM($datosC);
             return $result;
         }
+        return null;
     }
 
     //actualizar empleados

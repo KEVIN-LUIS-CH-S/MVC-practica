@@ -25,10 +25,27 @@ class EmpleadosM extends ConexionBD{
         
     }
 
+    public function obtenerPuestosM($tabla = 'puestos') {
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error en la consulta obtener puestos'];
+        }
+    }
+
     public function mostrarEmpleadosM($tablaBD = 'empleados'){
         try{
             $cbd = ConexionBD::cBD('pdo');
-            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
+            $stmt = $cbd->prepare("
+            SELECT e.id, e.nombre, e.apellido, e.email, p.nombre AS puesto, e.salario 
+            FROM $tablaBD e
+            INNER JOIN puestos p ON e.puesto = p.id
+            WHERE e.estado = 1
+            ");
             $stmt->execute();
             $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
@@ -43,7 +60,10 @@ class EmpleadosM extends ConexionBD{
         try {
             $cbd = ConexionBD::cBD('pdo');
             $id = $datosC['id'];
-            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE id=:id");
+            $stmt = $cbd->prepare("SELECT e.id, e.nombre, e.email, e.apellido, e.puesto AS id_puesto, p.nombre AS puesto, e.salario
+            FROM $tablaBD e
+            INNER JOIN puestos p ON e.puesto = p.id
+            WHERE e.id = :id");
             $stmt->execute([':id'=>$id]);
             $result=$stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
