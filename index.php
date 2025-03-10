@@ -33,6 +33,15 @@ if (!isset($_SESSION["Ingreso"]) && !in_array($ruta, $paginasPermitidas)) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Si la solicitud es un POST, llamar directamente al controlador correspondiente
+    if ($ruta === "editarEmple") {
+        $empleados = new EmpleadosC();
+        $empleados->actualizarEmpleadoC();
+        exit(); // Finalizar la ejecución para que no cargue la plantilla
+    }
+}
+
 
 // Si la solicitud es para un modal, solo devolver el contenido sin la plantilla
 if (isset($_GET['modal']) && $_GET['modal'] == 'true') {

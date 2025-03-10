@@ -1,9 +1,12 @@
-<?php
+<?php   //Vistas/Modulos/registrarEmple.php
+
 if (!isset($_SERVER["HTTP_REFERER"])) {
     header("Location: index.php?ruta=dashboard");
     exit();
 }
+
 $registrar = new EmpleadosC();
+$puestos = $registrar->obtenerPuestosC();
 $registrar->registrarEmpleadosC();
 ?>
 <br>  <!-- Vistas/Modulos/registrar.php -->
@@ -24,8 +27,14 @@ $registrar->registrarEmpleadosC();
             <input type="email" placeholder="Email" name="emailR" id="email" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="puesto" class="form-label">Puesto</label>
-            <input type="text" placeholder="Puesto" name="puestoR" id="puesto" class="form-control" required>
+        <label for="puesto" class="form-label">Puesto</label>
+            <select name="puestoR" id="puesto" class="form-control" required>
+                <option value="">Seleccione un puesto</option>
+                <?php
+                foreach ($puestos as $puesto): ?>
+                    <option value="<?= $puesto['id']; ?>"><?= $puesto['nombre']; ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="mb-3">
             <label for="salario" class="form-label">Salario</label>

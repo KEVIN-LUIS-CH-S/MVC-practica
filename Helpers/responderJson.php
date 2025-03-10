@@ -1,14 +1,18 @@
 <?php // Helpers/responderJson.php
 
 function responderJSON($data) {
-    if (ob_get_length()) {
-        ob_clean(); // Limpia cualquier salida previa
+    // Si hay alguna salida, la limpiamos correctamente
+    if (ob_get_contents()) {
+        ob_end_clean(); // Usa ob_end_clean() en lugar de ob_clean() para evitar problemas
     }
-    header('Content-Type: application/json; charset=utf-8');
-    if (headers_sent()) {
-        die(json_encode(["status" => "error", "message" => "Se enviaron encabezados antes del JSON"]));
+
+    // Verifica si ya se enviaron encabezados
+    if (!headers_sent()) {
+        header('Content-Type: application/json; charset=utf-8');
     }
-    echo json_encode($data);
+
+    // Envía la respuesta JSON
+    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 ?>
