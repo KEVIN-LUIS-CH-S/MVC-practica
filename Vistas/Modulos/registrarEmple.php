@@ -14,6 +14,7 @@ $registrar->registrarEmpleadosC();
 
 <div id="formRegistrarEmpleado">
     <form method="post" action="">
+        <input type="hidden" name="idAdmin" value="<?= $_SESSION['usuario_id']; ?>">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" placeholder="Nombre" name="nombreR" id="nombre" class="form-control" required>

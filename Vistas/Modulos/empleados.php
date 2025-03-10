@@ -1,6 +1,7 @@
 <?php
 $empleados = new EmpleadosC();
-$pagina = $empleados->mostrarEmpleadosC();
+$idAdmin=$_SESSION['usuario_id'];
+$pagina = $empleados->mostrarEmpleadosC($idAdmin);
 $empleados->borrarEmpleadoC();
 ?><br>  <!-- Vistas/Modulos/empleados.php -->
 

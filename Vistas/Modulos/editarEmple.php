@@ -12,6 +12,8 @@ $puestos = $empleados->obtenerPuestosC();
     <h1>EDITAR EMPLEADO</h1>
     <form method="post" action="">
         <input type="hidden" value="<?= $resultado['id'] ?>" name="idE" required>
+        <input type="hidden" name="idAdmin" value="<?= $resultado['id_admin'] ?>">
+
         <input type="text" placeholder="Nombre" name="nombreE" value="<?= $resultado['nombre'] ?>" required>
         <input type="text" placeholder="Apellido" name="apellidoE" value="<?= $resultado['apellido'] ?>" required>
         <input type="email" placeholder="Email" name="emailE" value="<?= $resultado['email'] ?>" required>
