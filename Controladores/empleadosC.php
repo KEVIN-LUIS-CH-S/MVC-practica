@@ -12,6 +12,7 @@ class EmpleadosC {
             $datosC['email'] = Sanitizar::limpiar($_POST['emailR']);
             $datosC['puesto'] = Sanitizar::limpiar($_POST['puestoR']);
             $datosC['salario'] = Sanitizar::limpiar($_POST['salarioR']);
+            $datosC['idAdmin'] = $_POST['idAdmin'];
             $result = $this->empleadosM->registrarEmpleadosM($datosC);
             if (isset($result['status']) && $result['status'] == 'success') {
                 responderJSON($result);
@@ -21,9 +22,15 @@ class EmpleadosC {
         }
     }
 
+    public function obtenerPuestosC(){
+        $result=$this->empleadosM->obtenerPuestosM();
+        return $result;
+    }
+
     //mostrar empleados
-    public function mostrarEmpleadosC(){
-        $result = $this->empleadosM->mostrarEmpleadosM();
+    public function mostrarEmpleadosC($idAdmin){
+        $idAdministrador=$idAdmin;
+        $result = $this->empleadosM->mostrarEmpleadosM($tabla='empleados',$idAdministrador);
         return $result;
     }
 
@@ -34,6 +41,7 @@ class EmpleadosC {
             $result = $this->empleadosM->editarEmpleadoM($datosC);
             return $result;
         }
+        return null;
     }
 
     //actualizar empleados
@@ -44,7 +52,8 @@ class EmpleadosC {
                                 'apellido'=>Sanitizar::limpiar($_POST['apellidoE']),
                                 'email' =>Sanitizar::limpiar($_POST['emailE']),
                                 'puesto' =>Sanitizar::limpiar($_POST['puestoE']),
-                                'salario' =>Sanitizar::limpiar($_POST['salarioE'])
+                                'salario' =>Sanitizar::limpiar($_POST['salarioE']),
+                                'idAdmin'=>$_POST['idAdmin']
                             );
             $result = $this->empleadosM->actualizarEmpleadoM($datosC);
             responderJSON($result);
