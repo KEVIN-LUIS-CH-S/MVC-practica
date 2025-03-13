@@ -1,7 +1,3 @@
-Aquí tienes una versión mejorada y más atractiva de tu `README.md`, con formato Markdown para que se vea profesional y fácil de leer en GitHub:  
-
----
-
 # 🚀 **PROYECTO CRUD CON PATRÓN MVC**  
 
 Este proyecto es un **CRUD** basado en el **patrón MVC (Modelo-Vista-Controlador)**, desarrollado con **PHP, HTML y JavaScript**. Fue creado como una práctica para reforzar conocimientos en desarrollo web siguiendo un enfoque estructurado.  
