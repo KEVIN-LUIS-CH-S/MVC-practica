@@ -12,8 +12,9 @@ Antes de ejecutar el proyecto, asegúrate de contar con los siguientes requisito
 
 ## ⚙ **Configuración de la Base de Datos**  
 
-1. Importa el archivo del esquema (`schema.sql`) en MySQL para crear la base de datos y las tablas necesarias.  
-2. Configura las credenciales de conexión a la base de datos en tu proyecto. Por ejemplo:  
+1. Importa el archivo del esquema (`schema.sql`) en MySQL para crear la base de datos y las tablas necesarias.
+2. Importa el archivo de los datos (`seed.sql`) en MySQL para crear los valores de la tabla "puestos".  
+3. Configura las credenciales de conexión a la base de datos en tu proyecto. Por ejemplo:  
 
    ```php
    define('DB_HOST', 'localhost');
@@ -22,7 +23,7 @@ Antes de ejecutar el proyecto, asegúrate de contar con los siguientes requisito
    define('DB_NAME', 'nombre_base_de_datos');
    ```
 
-3. Si clonaste el repositorio con **Git**, simplemente abre el proyecto en tu servidor local.  
+4. Si clonaste el repositorio con **Git**, simplemente abre el proyecto en tu servidor local.  
 
 ## ✉ **Funcionalidad de "Olvidaste tu contraseña"**  
 
@@ -49,9 +50,3 @@ Para habilitar el envío de correos en la recuperación de contraseña, configur
 📌 **Siguientes mejoras**: Se planea agregar nuevas funcionalidades como reportes en PDF, integración con API REST y mejoras en la interfaz con **Tailwind CSS**.  
 
 ⚡ **¡Gracias por visitar el proyecto!** Si tienes sugerencias o mejoras, no dudes en compartirlas. 🚀  
-
----
-
-Esta versión es más estructurada, clara y visualmente atractiva. Si quieres agregar más detalles o imágenes, puedes usar `![Texto alternativo](ruta_imagen)`.  
-
-Déjame saber si quieres cambios o más mejoras. 😃
