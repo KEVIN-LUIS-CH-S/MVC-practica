@@ -12,6 +12,17 @@ class recuperarCorreoC {
         $this->correoM = new recuperarCorreoM();
     }
 
+    private function getEnvValue($key) {
+        $lines = file(__DIR__ . "/../.env", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); // Ajusta la ruta según la ubicación del archivo
+        foreach ($lines as $line) {
+            list($envKey, $envValue) = explode("=", $line, 2);
+            if (trim($envKey) == $key) {
+                return trim($envValue);
+            }
+        }
+        return null;
+    }
+
     public function enviarCorreoC() {
         if(isset($_POST['email'])){
             $destinatario=Sanitizar::limpiar($_POST['email']);
@@ -45,12 +56,12 @@ class recuperarCorreoC {
             try {
                 // Configuración del servidor SMTP
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com'; // Servidor SMTP (depende del proveedor)
+                $mail->Host = $this->getEnvValue('EMAIL_HOST'); // Servidor SMTP (depende del proveedor)
                 $mail->SMTPAuth = true;
-                $mail->Username = 'regacadd@gmail.com'; // Tu correo
-                $mail->Password = 'lffesurqtdoiddsx'; // Tu contraseña o App Password
+                $mail->Username = $this->getEnvValue('EMAIL_USERNAME'); // Tu correo
+                $mail->Password = $this->getEnvValue('EMAIL_PASSWORD'); // Tu contraseña o App Password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587; // Puerto SMTP (puede ser 465 o 587)
+                $mail->Port = $this->getEnvValue('EMAIL_PORT'); // Puerto SMTP (puede ser 465 o 587)
     
                 // Configuración del correo
                 $mail->setFrom('regacadd@gmail.com', 'MVC Practica');
