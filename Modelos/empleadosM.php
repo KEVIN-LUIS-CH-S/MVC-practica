@@ -11,13 +11,15 @@ class EmpleadosM extends ConexionBD{
             $email = $datosC['email'];
             $salario = $datosC['salario'];
             $puesto = $datosC['puesto'];
+            $idAdmin = $datosC['idAdmin'];
 
-            $stmt = $cbd->prepare("INSERT INTO $tablaBD (nombre, apellido, email, puesto, salario) VALUES (:nombre, :apellido, :email, :puesto, :salario)");
+            $stmt = $cbd->prepare("INSERT INTO $tablaBD (nombre, apellido, email, puesto, salario, id_admin) VALUES (:nombre, :apellido, :email, :puesto, :salario, :id_admin)");
             $stmt->execute([':nombre'=>$nombre,
                             ':apellido'=>$apellido,
                             ':email'=>$email,
                             ':puesto'=>$puesto,
-                            ':salario'=>$salario]);
+                            ':salario'=>$salario,
+                            ':id_admin'=>$idAdmin]);
             return ['status' => 'success', 'message' => '¡Empleado registrado!'];
         }catch (Exception $e){
             return ['status' => 'error', 'message' => '¡El correo ya existe, intente con otro correo por favor!'];
@@ -25,11 +27,29 @@ class EmpleadosM extends ConexionBD{
         
     }
 
-    public function mostrarEmpleadosM($tablaBD = 'empleados'){
+    public function obtenerPuestosM($tabla = 'puestos') {
+        try {
+            $cbd = ConexionBD::cBD('pdo');
+            $stmt = $cbd->prepare("SELECT * FROM $tabla");
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => 'Error en la consulta obtener puestos'];
+        }
+    }
+
+    public function mostrarEmpleadosM($tablaBD = 'empleados',$idAdmin){
         try{
             $cbd = ConexionBD::cBD('pdo');
-            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE estado=1");
-            $stmt->execute();
+            $stmt = $cbd->prepare("
+            SELECT e.id, e.nombre, e.apellido, e.email, p.nombre AS puesto, e.salario 
+            FROM $tablaBD e
+            INNER JOIN puestos p ON e.puesto = p.id
+            INNER JOIN administradores a ON e.id_admin = a.id
+            WHERE e.estado = 1 AND e.id_admin = :idAdmin
+            ");
+            $stmt->execute(['idAdmin'=>$idAdmin]);
             $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }
@@ -43,7 +63,11 @@ class EmpleadosM extends ConexionBD{
         try {
             $cbd = ConexionBD::cBD('pdo');
             $id = $datosC['id'];
-            $stmt=$cbd->prepare("SELECT id, nombre, email, apellido, puesto, salario FROM $tablaBD WHERE id=:id");
+            $stmt = $cbd->prepare("SELECT e.id, e.nombre, e.email, e.apellido, e.puesto AS id_puesto, 
+                                    p.nombre AS puesto, e.salario, e.id_admin 
+                                    FROM $tablaBD e
+                                    INNER JOIN puestos p ON e.puesto = p.id
+                                    WHERE e.id = :id");
             $stmt->execute([':id'=>$id]);
             $result=$stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
@@ -63,13 +87,14 @@ class EmpleadosM extends ConexionBD{
                 email=:email, 
                 puesto=:puesto, 
                 salario=:salario
-                WHERE id=:id");
+                WHERE id=:id AND id_admin=:id_admin");
             $stmt->execute([':nombre'=>$nombre,
                             ':apellido'=>$apellido,
                             ':email'=>$email,
                             ':puesto'=>$puesto,
                             ':salario'=>$salario,
-                            ':id'=>$id]);
+                            ':id'=>$id,
+                            ':id_admin'=>$idAdmin]);
 
             return ['status' => 'success', 'message' => 'empleado actualizado correctamente'];
         } catch (Exception $e) {
@@ -94,7 +119,13 @@ class EmpleadosM extends ConexionBD{
     public function contarEmpleadosPorPuestoM($tablaBD = 'empleados'){
         try {
             $cbd = ConexionBD::cBD('pdo');
-            $stmt = $cbd->prepare("SELECT puesto, COUNT(*) as cantidad FROM $tablaBD WHERE estado=1 GROUP BY puesto");
+            $stmt = $cbd->prepare("
+                    SELECT p.nombre AS puesto, COUNT(e.id) AS cantidad
+                    FROM $tablaBD e
+                    INNER JOIN puestos p ON e.puesto = p.id
+                    WHERE e.estado = 1
+                    GROUP BY p.nombre            
+            ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {

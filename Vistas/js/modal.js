@@ -22,6 +22,16 @@ function cargarModal(url, modalId, formId, data = {}) {
                 })
                 .then(response => response.json())
                 .then(data => {
+                    // Cerrar el modal manualmente sin jQuery
+                    document.getElementById("modalGeneral").classList.remove("show");
+                    document.getElementById("modalGeneral").setAttribute("aria-hidden", "true");
+                    document.getElementById("modalGeneral").style.display = "none";
+
+                    // Remover el backdrop manualmente si existe
+                    const modalBackdrop = document.querySelector(".modal-backdrop");
+                    if (modalBackdrop) {
+                        modalBackdrop.remove();
+                    }
                     Swal.fire({
                         icon: data.status === "success" ? "success" : "error",
                         title: data.message
