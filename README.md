@@ -1,6 +1,6 @@
 # 🚀 **PROYECTO CRUD CON PATRÓN MVC**  
 
-Este proyecto es un **CRUD** basado en el **patrón MVC (Modelo-Vista-Controlador)**, desarrollado con **PHP, HTML y JavaScript**. Fue creado como una práctica para reforzar conocimientos en desarrollo web siguiendo un enfoque estructurado, cabe mecionar que no se busco desarrolar el UI.
+Este proyecto es un **CRUD** basado en el **patrón MVC (Modelo-Vista-Controlador)**, desarrollado con **PHP, HTML y JavaScript**. Fue creado como una práctica para reforzar conocimientos en desarrollo web siguiendo un enfoque estructurado, cabe mecionar que no se enfatizo desarrollar la UI del fronted.
 
 ## 🎯 **Características y Funcionalidades**  
 
