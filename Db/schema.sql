@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-03-2025 a las 17:35:19
+-- Tiempo de generación: 13-03-2025 a las 16:25:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -54,7 +54,19 @@ CREATE TABLE `empleados` (
   `puesto` varchar(50) NOT NULL,
   `salario` decimal(10,2) NOT NULL CHECK (`salario` >= 0),
   `fecha_ingreso` date DEFAULT curdate(),
-  `estado` tinyint(1) NOT NULL DEFAULT 1
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `id_admin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `puestos`
+--
+
+CREATE TABLE `puestos` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -74,7 +86,14 @@ ALTER TABLE `administradores`
 --
 ALTER TABLE `empleados`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `fk_empleados_admin` (`id_admin`);
+
+--
+-- Indices de la tabla `puestos`
+--
+ALTER TABLE `puestos`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -91,6 +110,22 @@ ALTER TABLE `administradores`
 --
 ALTER TABLE `empleados`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `puestos`
+--
+ALTER TABLE `puestos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD CONSTRAINT `fk_empleados_admin` FOREIGN KEY (`id_admin`) REFERENCES `administradores` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

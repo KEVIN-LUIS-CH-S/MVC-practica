@@ -119,7 +119,13 @@ class EmpleadosM extends ConexionBD{
     public function contarEmpleadosPorPuestoM($tablaBD = 'empleados'){
         try {
             $cbd = ConexionBD::cBD('pdo');
-            $stmt = $cbd->prepare("SELECT puesto, COUNT(*) as cantidad FROM $tablaBD WHERE estado=1 GROUP BY puesto");
+            $stmt = $cbd->prepare("
+                    SELECT p.nombre AS puesto, COUNT(e.id) AS cantidad
+                    FROM $tablaBD e
+                    INNER JOIN puestos p ON e.puesto = p.id
+                    WHERE e.estado = 1
+                    GROUP BY p.nombre            
+            ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
